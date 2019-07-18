@@ -1,0 +1,37 @@
+Setting up your LLUCE-NET alpha site
+------------------------------------
+
+Creating directories:
+
+The most important directory is I:. It must be a completely seperate from others and there must be no files within it. I1: should be created in the same mannar as Supertac directories. It should be clean as well. If you are connected to two sites, create I2: and so on. (Check end of file for multiple connections).
+
+Copying files:
+
+Parse.s, Amdss.s, Mdss.s and Mail.s should be installed in A:.
+
+Creating files:
+
+G:DIR.MIN. This file is a listing of site names versus their directories. For our one connection system, the file would look like this:
+
+systemname;1
+
+with a blank line at the end.
+
+G:NET.PASS. This file is a listing of other sites and their passwords. It is in the form of:
+
+systemname;password
+
+G:PATHS and G:ALIASES. These files will be explained later.
+
+Installing links:
+
+Mail.s should be accessable from the main segment via a menu command. In the logon segment under login2 add the lines:
+
+ if (instr("AMDSS",a3$) or instr("amdss",a3$)) link "a:amdss"
+ if (instr("MDSS",a3$) or instr("mdss",a3$)) link "a:mdss"
+
+in that order.
+
+Creating accounts:
+
+Create two accounts, one with AMDSS as the name and MDSS as the other. They can be from anywhere and only need have a flag that allows them to login. Remember the password and user number for the different accounts and submit them to your neighbouring sysops.

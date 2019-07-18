@@ -1,0 +1,364 @@
+LLUCE Command Syntax
+
+  All operations in this section are the same as in ACOS
+
+ +                                              Add numbers/concat strings
+ -                                              Subtract numbers
+ *                                              Multiply numbers
+ /                                              Divide numbers
+ =                                              Equate or compare equals
+ <                                              Compare less than
+ >                                              Compare greater than
+ <>                                             Compare not equal
+ <=                                             Compare less or equal to
+ =>                                             Compare greater or equal to
+ Value    =ABS(Value)                           Make positive
+ AND                                            Logical AND numbers
+ MOD                                            Logical MODULO numbers
+ NOT                                            Logical NOT number
+ OR                                             Logical OR numbers
+ XOR                                            Logical exclusive OR numbers
+-------------------------------
+# ADDINT(String)                                Add interrupt character
+  APPEND   #Channel(File)                       Append to a file
+  Value    =ASC(String)                         Get ASCII value of the first
+                                                character of specified string
+! ANSI    OFF                                   Turn ANSI term emulation off
+! ANSI    ON                                    Turn ANSI term emulation on
+-------------------------------
+  BYTE     =Address                             Set byte address
+  Value    =BYTE                                Get byte address
+  BYTE(Value8)                 =(Value8)        Set a byte
+  Value    =BYTE(Value8)                        Get a byte
+$ Value   =BAUD                                 Get users baud rate
+-------------------------------
+  CALL     Address                              Call routine at address
+$ CHAIN   Filename                              Chain to segment filename
+$ CHAIN   Filename,Label                        Chain to segment filename
+                                                Start at specified label
+  String   =CHR$(Value8)                        Make a 1 character string
+  String   =CHR$(Value8,Value8)                 Make a multi character string
+! CLEAR                                         See CLOCK, EDIT and MODEM
+                                                statements
+  CLEAR                                         Clear variables
+  CLOCK(0)                                      CHANGED TO CLOCK CLEAR
+  CLOCK(1)                                      CHANGED TO CLOCK ONLINE
+  CLOCK(2)                                      CHANGED TO CLOCK
+$ CLOCK   CLEAR                                 Set timer start
+$ CLOCK   ONLINE                                Get time connected
+$ CLOCK   =Value16                              Set time limit
+$ Value   =CLOCK                                Get time limit
+  CLOSE                                         Close any open file(s)
+  CLOSE    #Channel(File)                       Close file at specified channel
+! print   CLS                                   Clear the screen
+! CLS                                           Clear the screen
+! CLS     =Value8                               Set CLS character
+! Value   =CLS                                  Get CLS character
+  COPY     Filename                             Copy a text file to console
+  COPY     (Lines)Filename                      Copy (lines) of a text
+                                                file to the console
+  COPY     Filename,#Channel(File|7|9..10)      Copy a text file to device
+  COPY     (Lines)Filename,#Channel(File|7|9..10) Copy (lines) of a text file
+                                                to device
+  COPY     #Channel(File|7..10),#(File|7|9..10) Copy text from device to
+                                                device
+  COPY     (Lines)#Channel(File|7..10),#(File|7|9..10) Copy (lines) of text
+                                                from device to device
+  CREATE   Filename                             Create a text file
+! CREATE  Filename,Msg,Value16                  Create a message file
+! CREATE  Filename,Type8                        Create a file with Type8
+! CREATE  Filename,Type8,Subtype                Create a file with Type8,
+                                                AuxType of Subtype
+  CRUNCH                                        Compact current message file
+-------------------------------
+  DATE$    =String                              Set date (for no clock)
+  String   =DATE$                               Get date
+! DISK    LOCK                                  Reserve network
+! DISK    UNLOCK                                Release network
+-------------------------------
+  ECHO     =String                              Character to echo on input
+  EDIT(0)                                       CHANGED TO EDIT CLEAR
+  EDIT(1)                                       CHANGED TO EDIT
+  EDIT(2)                                       CHANGED TO EDIT SIZE
+  EDIT(3)                                       CHANGED TO WIDTH
+  EDIT(4)                                       CHANGED TO MODE
+  EDIT(5)                                       CHANGED TO EDIT
+$ EDIT                                          Enter the editor
+$ EDIT    CLEAR                                 Clear editor buffer
+! EDIT    OFF                                   Turn off profanity filter
+! EDIT    ON                                    Turn on profanity filter
+! EDIT    =Filename                             Set editor filename
+$ Value   =EDIT                                 Get editor buffer location
+! Value   =EDIT ERROR                           Get .X hack attempt
+$ Value   =EDIT SIZE                            Get size of message
+  ELSE                                          See IF statement
+! END                                           See KEY statement
+  END                                           End program execution
+  EOF(Channel(File))                            Check for end of file
+! Value   =ERR                                  Get last error number
+? ERROR                                         See ON and EDIT statements
+$ EXEC    =Value8                               Set exec user status
+$ Value   =EXEC                                 Get exec user status
+! Value   =EXIST(Filename)                      Check If file exists
+! EXIT                                          Exit from LLUCE
+! EXIT    CompletePathname                      Exit from LLUCE, execute path
+-------------------------------
+  FILL     Address,Bytes8,Value8                Fill Address range with data
+  FLAG                                          See KEY statement
+  FLAG     =Address                             Set flag pointer
+  Value    =FLAG                                Get flag pointer
+  FLAG(Value8)                 =(Value1)        Set a flag
+  Value    =FLAG(Value8)                        Get a flag
+! FLASH   ON                                    GS screen flash on
+! FLASH   OFF                                   GS screen flash off
+$ FLUSH                                         Flush any open file(s)
+$ FLUSH   #Channel(File)                        Flush specified file
+? String  =FMTDATE$                             Get formatted date
+! String  =FMTWHEN$                             Get stored formatted date
+  FOR      L=Value TO Value                     Loop from value to value
+  FOR      L=Value TO Value STEP Value          Loop from value to value
+                                                stepping by specified count
+  FREE                                          Compact variables
+! FREE                                          See MSG statement
+-------------------------------
+  GET      String|Number                        Get a single character
+  GOTO     Label                                Go to a label
+                                                Alse see ON, ON ERROR and
+                                                ON NOCAR statements
+! print   GOTOXY(X-Value8,Y-Value8)             Move cursor to X,Y
+! GOTOXY(X-Value8,Y-Value8)                     Move cursor to X,Y
+! GOTOXY  =Value8                               Set GOTOXY character
+! Value   =GOTOXY                               Get GOTOXY character
+  GOSUB    Label                                Go to a subroutine
+                                                Also see ON statement
+-------------------------------
+! print   HOME                                  Move cursor to upper left
+! HOME                                          Move cursor to upper left
+! HOME    =Value8                               Set HOME character
+! Value   =HOME                                 Get HOME character
+-------------------------------
+  IF statement [THEN] statement [ELSE] statement Conditional
+  INFO(0)                                       CHANGED TO ONLINE
+  INFO(1)                                       CHANGED TO MSG SIZE
+  INFO(2)                                       CHANGED TO BAUD
+  INFO(3)                                       CHANGED TO NULLS
+  INFO(4)                                       CHANGED TO SET MSG
+  INFO(5)                                       CHANGED TO EXEC
+  INFO(6)                                       CHANGED TO MSG FREE
+  INPUT @n String|Number                        Get a line of text
+  Value    =INSTR(String1,String2)              Find a string in another string
+# Value   =INSTR(String1,String2,start8)        Find a string in another string
+                                                starting at specified character
+! print   INVERSE                               Set Inverse characters
+! INVERSE                                       Set Inverse characters
+! INVERSE =Value8                               Set INVERSE character
+! Value   =INVERSE                              Get INVERSE character
+-------------------------------
+  KEY(0)                                        CHANGED TO KEY
+  KEY(1)                                        CHANGED TO KEY END
+  KEY(2)                                        CHANGED TO KEY NEXT
+  KEY(3)                                        CHANGED TO KEY FLAG
+$ Value   =KEY                                  Return keypress (if any)
+$ Value   =KEY END                              1 If 'stop' char pressed
+$ Value   =KEY NEXT                             1 If 'next' char pressed
+$ Value   =KEY FLAG                             Any interrupt char pressed
+  KILL     Filename                             Delete a file
+  KILL     #MSG(Value16)                        Delete a message
+-------------------------------
+! LEADIN   =Value8                              Set LEADIN character
+! Value    =LEADIN                              Get LEADIN character
+  String    =LEFT$(String,Value8)               Get left part of a string
+  Value     =LEN(String)                        Get length of a string
+$ LINK                                          CHANGED TO CHAIN
+! LOCK                                          See DISK statement
+! LOCK     Filename                             Lock a file
+$ LOG     DriveSpec                             CHANGED TO PREFIX
+! LOWER$(String)                                Convert string to lower case
+! LTRIM$(String)                                Trim strings trailing spaces
+-------------------------------
+  MARK(Channel(File|10))       =Value           Set file mark
+  Value    =MARK(Channel(File|10))              Get file mark
+  String   =MID$(String,Value8)                 Get part of a string, starting
+                                                at specified point to end
+  String   =MID$(String,Value8,Value8)          Get part of a string, starting
+                                                at specified point, for
+                                                specified number of characters
+! MID$(string,Value8)=string                    copy a string into part of
+                                                another, starting at specified
+                                                point, to end of string
+! MID$(string,Value8,Value8)=string             copy a string into part of
+                                                another, starting at specified
+                                                point, to end of string, or to
+                                                the specified size.
+! MIXED$(String)                                Convert string to mixed case
+$ MODE    =Value8                               Set backspace mode
+$ Value   =MODE                                 Get backspace mode
+  MODEM(0)                                      NOT USED IN LLUCE (REMOVE)
+  MODEM(1)                                      CHANGED TO MODEM READY
+  MODEM(2)                                      CHANGED TO MODEM NOCAR
+$ MODEM   READY                                 Wait for a call
+$ MODEM   NOCAR                                 Hang up
+! MODEM   ONLINE=Value8                         Dial out at Value8 100 baud
+! MODEM   TIME$=String                          Set auto logon time
+! MODEM   CLEAR                                 Clear auto logon
+! print   MOUSE                                 Set Mousetext characters
+! MOUSE                                         Set Mousetext characters
+! MOUSE   =Value8                               Set MOUSE character
+! Value   =MOUSE                                Get MOUSE character
+  MOVE     Address,Bytes TO Address             Move data
+  MSG(Value16)                 =Value           Set message data
+# MSG(Value16,Value2)         =Value            Set message data indexed
+  Value    =MSG(Value16)                        Get message data
+# Value   =MSG(Value16,Value2)                  Get message data indexed
+$ Value   =MSG FREE                             Get message file blocks free
+$ Value   =MSG SIZE                             Get message file capacity
+-------------------------------
+! NAME    Filename,Filename                     Rename a file
+  NEXT                                          End of closest FOR loop
+! NEXT    Nvar                                  End of specified FOR loop
+                                                Also see FOR and KEY statements
+  NIBBLE   =Address                             Set NIBBLE address
+  Value    =NIBBLE                              Get NIBBLE address
+  NIBBLE(Value8)               =(Value4)        Set a NIBBLE
+  Value    =NIBBLE(Value8)                      Get a NIBBLE
+  NOCAR                                         See ON and MODEM statements
+! Value   =NODE                                 Get network NODE number
+! print   NORMAL                                Set normal characters
+! NORMAL                                        Set normal characters
+! NORMAL  =Value8                               Set NORMAL character
+! Value   =NORMAL                               Get NORMAL character
+$ NULLS   =Value8                               Set number of nulls
+$ Value   =NULLS                                Get number of nulls
+-------------------------------
+! OFF                                           See EDIT and FLASH statements
+! OFFSET  =Value8                               Set OFFSET character
+! Value   =OFFSET                               Get OFFSET character
+! ON                                            See EDIT and FLASH statements
+? ON ERROR :                                    Clear error detect
+? ON ERROR GOTO Label                           Set error routine
+! ON N GOTO Label1,Label2,Label3                Indexed goto
+! ON N GOSUB Label1,Label2,Label3               Indexed gosub
+  ON NOCAR :                                    Clear carrier loss detect
+  ON NOCAR GOTO Label                           Set carrier loss routine
+! ON N PUSH Label1,Label2,Label3                Indexed push
+! ONLINE                                        See CLOCK and MODEM statements
+$ Value   =ONLINE                               Get online/local status
+  OPEN     #Channel(File),Filename              Open any file for read/write
+* OPEN READ #Channel(File),Filename             Open any file for read only
+* OPEN WRITE #Channel(File),Filename            Open any file for write only
+! OVERLAY  Filename[,Parameters]                Execute an overlay
+-------------------------------
+  Value    =PDL(Value4)                         Get game control value
+  Value    =PEEK(Address)                       Get value at address
+  POKE     Address,Value                        Put value to address
+  POP                                           Remove subroutine
+  POSITION #Channel(File),Reclen,Recnum         Position to start of record
+  POSITION #Channel(File),Reclen,Recnum,Byte    Position to specified byte of
+                                                record
+! PREFIX                                        Set to startup prefix
+$ PREFIX Pathname                               Set the prefix
+! String  =PREFIX                               Get current prefix
+  PRINT                                         Print data
+  PUBLIC   Label                                Set a public label
+! PUSH                                          See ON statement
+  PUSH     Label                                Push routine to return to
+-------------------------------
+  RAM                                           CHANGED TO RAM OR RAM(0)
+  RAM2                                          CHANGED TO RAM(1)
+$ RAM                                           Location of scratch Ram
+$ RAM(0)                                        Location of scratch Ram
+$ RAM(1)                                        Location of scratch Ram 1
+  RAM(2)                                        Location of scratch Ram 2
+  RAM(3)                                        Location of scratch Ram 3
+  Value    =RANDOM(Value)                       Get a random value
+  READ     #Channel(File),Address,Bytes         Read binary data
+  READY                                         See MODEM statement
+  READY    Filename|Nullstring                  Get a message file ready
+  RECALL   Filename                             Recall program variables
+  RESUME                                        Resume program after error
+  RETURN                                        Return from subroutine
+  REWIND                                        Restart current ,essage
+  String   =RIGHT$(String,Value8)               Get right part of a string
+  String   =RND$                                Get a random character
+! RTRIM$(String)                                Trim strings leading spaces
+-------------------------------
+  SET      String=Address,Length                Set variable pointer
+$ SET MSG =Value8                               Set top of screen message
+  SETINT(String)                                Set interrupt character
+! SIZE                                          See EDIT and MSG statements
+  SIZE(Channel(File))                           Get file size
+  STEP                                          See FOR statement
+  STORE    Filename                             Save program variables
+  String   =STR$(Value)                         Make numeric string
+-------------------------------
+  TERMINAL =Value8                              Set terminal type number
+  Value    =TERMINAL                            Get terminal type number
+  TEXT                                          NOT USED IN LLUCE, SEE WINDOW
+  THEN                                          See IF statement
+  String   =TIME$                               Get current time, 24 hour
+! String  =TIME12$                              Get current time, 12 hour
+  TO                                            See FOR and MOVE statements
+! print TONE(Value8,Duration)                   Execute a pure tone
+! print TONE(Value8,Value8,Duration)            Execute a dual tone
+  TONE(Value8,Duration)                         Execute a pure tone
+  TONE(Value8,Value8,Duration)                  Execute a dual tone
+! TYPE    Filename                              Type text, SRC or AW file
+                                                to the console
+! TYPE    Filename,#Channel(File)               Type text, SRC or AW file
+                                                to the specified channel
+-------------------------------
+! UNLOCK                                        See DISK statement
+! UNLOCK  Filename                              Unlock a file
+  UPDATE                                        CHANGED TO FLUSH
+! UPPER$(String)                                Convert string to upper case
+  USE                                           NOT USED IN LLUCE, SEE OVERLAY
+-------------------------------
+  Value    =VAL(String)                         Get value of a string
+-------------------------------
+  WHEN$    =Address                             Set date storage address
+# WHEN$   =String                               Store a date
+  String   =WHEN$                               Get stored date
+$ WIDTH   =Value8                               Set editor width
+$ Value   =WIDTH                                Get editor width
+  Value    =WIDTH(Value2)                       Get fixed widths
+! WINDOW  =Value8                               Set window top
+! WINDOW  =Value8,Value8                        Set window top and bottom
+! WINDOW  =Value8,Value8,Value8                 Set window top, bottom and left
+! WINDOW  =Value8,Value8,Value8,Value8          Set all window limits
+           First  Value =Screen Top
+           Second Value =Screen Bottom
+           Third  Value =Screen Left
+           Fourth Value =Screen Right
+! WORD    =Address                              Set word address
+! Value   =WORD                                 Get word address
+! WORD(Value8)                =(Value16)        Set a word
+! Value   =WORD(Value8)                         Get a word
+  WRITE    #Channel(File),Address,Bytes         Write binary data
+----------------------------------------------------------------------------
+    Value 1  =        0 through       1
+    Value 2  =        0 through       3
+    File     =        1 through       3
+    Value 4  =        0 through      15
+    Byte     =        0 through     255
+    Bytes    =        0 through     255
+    Length   =        0 through     255
+    Lines    =        0 through     255
+    Reclen   =        0 through     255
+    Value 8  =        0 through     255
+    Address  =        0 through   65535
+    Recnum   =        0 through   65535
+    Subtype  =        0 through   65535
+    Value 16 =        0 through   65535
+    Value    = -8388608 through 8388607
+----------------------------------------------------------------------------
+KEY TO SYMBOLS
+
+!   New to LLUCE
+?   New as of ACOS 2.0
+#   Enhanced in LLUCE
+$   Syntax changed in LLUCE
+*   Used only on AppleTalk networks,
+    modifier (READ or WRITE) ignored if no AppleTalk network present
+
+If no notation preceeds a command, the command has the same syntax as ACOS
+----------------------------------------------------------------------------

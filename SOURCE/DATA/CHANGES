@@ -1,0 +1,138 @@
+L & L  Universal Communications Environment (LLUCE)
+
+This document was prepared by Andrew Wells on November 27, 1992.
+
+This is mostely just a list of the differences between LLUCE and ACOS,
+comparing LLUCE with a system that a lot of people already are familiar with.
+
+LLUCE has been long in coming, but I think those who have had the patience to
+wait won't be disappointed.  I have spent many hours, days, etc. putting
+everything I and others could think of into it without making it so big that it
+wouldn't fit within a 128k environment.  I also didn't want to take so much
+time adding stuff that wouldn't get used (at least not much), like arrays, that
+it take even longer to release, and would tend to slow it down too.
+
+This is a list of what LLUCE has evolved into.  We wanted to stay fairly close
+to the ACOS syntax so as to not confuse some of the less programming literate
+BBS owners out there, but we also wanted to make it as useful, as fast and as
+close to some of the accepted language standards out there.
+
+The following is a list of the major changes.  Minor bug fixes aren't listed
+here, but you can be sure that all reported bugs have been taken care of along
+with quite a few that no one ever came across..
+
+Source/Compiler
+---------------
+- The compiler is more than 1500% faster than ACOS was.  What this means is
+  that a segment which would take 2 minutes, 45 seconds with ACOS, when
+  converted to LLUCE syntax (probably making it a slight bit larger) will take
+  only 10 seconds to compile with LLUCE.
+- In line/multiple line (block) comments work same as pascal { }
+- Line continue character allows more free-form coding.
+- LLUCE and ACOS both allow 8 public labels per segment.  ACOS did no checking
+  at all (other than the label exists) on the number of labels, LLUCE shows an
+  error message (but continues compiling).  Also, only those labels that are
+  designated as public are available from outside of the segment (ACOS allowed
+  the first 8 labels declared)
+- Variable names may contain as many as 4 signifigant characters.  The compiler
+  will only place as many characters as are needed in the compiled code
+  (A$ with ACOS used 3 bytes, the string designator, the A and a space, LLUCE
+  uses the string designator and just the A)
+
+EXTERNAL stuff
+--------------
+- Allows shell programs to insert pathnames
+- CRC16 routines are built in
+- Overlays are only loaded if they haven't been loaded, or have been corrupted
+- Added read/write multiple bytes routines
+- DCI string print routine is callable from overlays
+- Variables can be stored and recalled by overlays
+- A routine is available that sets the current prefix to the SYSTEM prefix.
+  This is where all LLUCE system modules (Compiler, Editor and overlays) are
+  kept.
+
+Optimizations/Changes
+---------------------
+- Support for 3 disk files (one more than ACOS)
+- Full 24 bit arithmetic and variables
+- There are now 4 256 byte RAM areas instead of just 2 64 byte RAM areas
+- DriveSpecs are GONE!  Standard ProDOS pathnames are now used throughout
+
+Existing command changes
+------------------------
+- The INSTR function has been changed to allow an optional starting position
+- DATE$ and WHEN$ work with any year
+- WHEN$ lets you use any date, not just the current date
+- The NEXT command will allow the use of a variable to abort inner loops
+- Major syntax changes have been made to all those functions that required a
+  number for a parameter (eg MODEM(0)).  The syntax is more descriptive now
+- CREATE has been changed to be able to create directories and message files
+- FLAG, NIBBLE, BYTE, WORD, FILL, MOVE, READ and WRITE will accept position
+  or count parameters greater than 255
+- OPEN command allows a READ or WRITE parameter for network file access.  If no
+  READ or WRITE parameter is used, files are opened for READ/WRITE access.
+  If there is no AppleTalk network available, the access parameter is ignored.
+- The LINK command was changed to CHAIN.  LINK could mean several things
+
+New commands added
+------------------
+- ON ERROR GOTO and RESUME commands
+- WORD function (like FLAG, NIBBLE and BYTE that ACOS has, but uses 2 bytes)
+- TIME12$ can be used to get time in 12 hour format
+- EDIT ON/OFF turns profanity filter on or off
+- ON x GOSUB, ON x GOTO and ON x PUSH commands
+- RTRIM$ and LTRIM$ string trim commands
+- UPPER$, LOWER$ and MIXED$ string case conversions
+- FLASH enables or disables GS screen color changes
+- WINDOW function to set window boundaries (not fully implemented, needs
+  rewritten video driver)
+- EXIST was added to check if files exist on disk
+- LOCK, UNLOCK and RENAME are built in
+- TYPE was added to support files other than straight text (SRC, AWP)
+- The USE command was removed.  In it's place is OVERLAY.  Not only do overlays
+  load and execute in a different location than the ACOS USE files, but they
+  don't disturb the editor buffer, and their format is slightly different - see
+  Security below.
+- PREFIX was added to support ProDOS pathnames
+- Many terminal emulation commands were added.  These can be used in several
+  ways.  You can use them to generate terminal control characters, or you can
+  set or read the values of the terminal control codes.
+
+Security
+--------
+- All overlays are checked with CRC16 and ID code for validity
+- The main LLUCE code is checked for valid CRC before running to insure it's
+  integrity
+
+Messages
+--------
+- Message system allows 4 MSG numbers instead of just 1
+- MSG numbers are 24 bit numbers
+- Removed text compression/decompression so 8 bit ASCII can be used
+
+Editor
+------
+- Editor hack line was changed from ^T to ^Y (per HIN)
+- Added support for normal, inverse and moustext
+- More than one editor is possible.  The name of the editor to use can be set
+  to any editor in the LLUCE system directory
+
+Miscellaneous
+-------------
+- Waiting for call uses 2 flashing apples and current time to show it's active.
+
+- Screen saver is built in, and is active while waiting for calls
+  The screen will blank on //e, and the screen will change colors on GS
+  The screen saver timeout value can be set where you want it
+
+- The filename processor will change any illegal characters to periods (.)
+
+- The NIBBLE command stored nibbles backwards in ACOS.  This would result in
+  problems if you wanted to set values with nibbles and read them back as FLAGs
+  or BYTEs (and now WORDs).  For example, you have BYTE and NIBBLE set to RAM,
+  then set NIBBLE(0)=1, NIBBLE(1)=0.  What you should expect from a
+  PRINT BYTE(0) would be a 1, but with ACOS, you'd get a 16, and that isn't the
+  way it should be.
+
+- LLUCE allows commands to be sent to the modem, so a terminal program could be
+  written that supports dialing.

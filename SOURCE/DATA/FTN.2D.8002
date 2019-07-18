@@ -1,0 +1,86 @@
+L&L Productions
+File Type Notes
+______________________________________________________________________________
+
+File Type:  $2D
+Auxtype:    $8002
+
+Name:       All Purpose Communications Operating System Message File Format
+
+Written By: Andy Wells                                     January, 1990
+
+Format of files used to store messages by ACOS
+______________________________________________________________________________
+
+This file is used to store packed text used for messages and mail.
+There are four parts to the file.
+
+The first part is a header, containing information about the file itself as
+well as a copy of the data for the highest used message number.
+The header is always 8 bytes long.
+
+The second part is a bitmap containing bits that refer to individual blocks
+within the actual text storage area of the file.
+
+The third part is the directory containing information relating to each message
+in the file.
+
+The fourth part is used for actual text storage.
+
+HEADER FORMAT
+-------------
+
+$00  BITSIZE    Byte          Size of bitmap in blocks
+
+$01  DIRSIZE    Byte          Size of directory in blocks
+
+$02  USEDBLKS   Word          Number of blocks in use
+
+$04  NUMFILES   Word          Actual number of messages in file
+
+$06  HIMSGNUM   Word          Number of last message in file
+
+BITMAP FORMAT
+-------------
+
+Each bitmap block is 128 bytes long.  Each byte contains 8 bits corresponding
+to available blocks in the text storage area of the file.  The bit pattern is
+from least significant bit to most significant bit.  Eg: Bit 0 of byte 0
+corresponds to block 0.
+
+There are 4 bytes for each message allowed in the file.  This allows for
+messages up to a total of 4K each.  If some messages are shorter, then others
+can be longer.
+
+DIRECTORY FORMAT
+----------------
+
+$00  BLKPTR     Word          Pointer to first block used by this message
+                              If zero, this message has been deleted.
+
+$02  MSGNUM     Wordt         Message number
+
+Message numbers are referred to by the command MSG(X)
+
+TEXT AREA FORMAT
+----------------
+
+$00  TEXT       126 Bytes     Packed text.  8 bytes are packed into 7 bytes
+$7D                           with the last byte stored in the high bit of
+                              the first 7 bytes.  Bits of the last byte are
+                              stored in order, low order bit first.
+
+$7E  NXTBLK     Word          Pointer to next block of message.
+                              If zero, there are no more blocks.
+
+------------------------------------------------------------------------------
+
+The header starts at byte 0 of the file.
+The bitmap starts at byte 8.
+To calculate the start of the directory, use the following formula:
+
+Dir Start = 8 + (BITSIZE * 128)
+
+To calculate the start of the text area, use the following formula:
+
+Text Start = 8 + (BITSIZE * 128) + (DIRSIZE * 128)

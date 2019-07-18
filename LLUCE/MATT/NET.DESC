@@ -1,0 +1,26 @@
+ProLink (tentative) description.
+
+Confidential file for Lance Taylor Warren from Matthew Montano.
+
+Hopefully this file will describe what I am doing with my software, and how it may be integrated into the stock GBBS system.
+
+Protocol: The software uses a modified arpa/ddn/uucp/internet style parsing with *NO* extensions but rather limitations. The bitnet identifier (%) is not currently recognized or supported in the mailer. Support for domains and parks is going to be installed since it is simpler and would make a network easier to run.
+
+Naming conventions: All sites will have to name there system in a restrictive way, at least in the way that mail will work. Following UUCP guidelines, all sites must have a site name that is one word, less than 16 characters (more is more awkward), and not containing any punctuation except the "_" character (denoting space). System names like "llsupport" or "stronghold" are ideal, where as names like "L & L Systems Support" or "The Stronghold IIGS" are not usable. Lower case is desirable, but since the mailer is case insensitive it doesn't matter. User names is a LARGE problem, since most of the GBBS systems use the standard first name/last name setup. For GBBS users will have mailing addresses in one of the following forms: 1) Their first name plus their account number i.e matthew907 (on Lance's system) 2) their first name plus a "_" character and their last name. I.E. matthew_montano <- undesirable because of length. 3) Optionally there would be alias file where each user can submit their own mail address to recieve mail with. 4) Built in to the mailer are account names such as "root" "sysop" "mailer" "postmaster" as specified by UUCP guidelines.
+
+Integration of mailer into a stock GBBS system: The entire mailer HAS to be rewritten, luckily I have taken Parik's mailer (with his permission) from his ProTalk and modified it to work with standard GBBS with a parser. The mailer creates a temporary message file (if an outbound message) and then passes control to the parser which looks at the message and works with it. It will sort the mail quickly and place it in the correct outbound file or bounce it back to the sender. It takes under three seconds at the current time to parse a standard message (even with creating files etc... it's FAST).
+  Using an x.wait or ACOS.TIME function at the idle state, the system will link to a segment at a given time each hour (if at the wait state at the specific time). This segment will check an id.file, see if it is the correct time to dial out for that system. If it is the correct time, it runs another segment (or a part of it within that segment) which checks how much mail is queded up and if there is mail will x.quit into proterm (after renaming the correct script file to pt.startup for auto-execution) and dial out and transfer the files per the protocol defined below. Once done, it will quit back into acos, run the logon segment and find that there still is a pt.startup file (indicating it was in the middle of a scan) and check the next system in the id.file for the specific time to dial out.
+  Newsfeeds are handled by the parser. If the message is addressed to an account which contains the text "feed" in it, it triggers a process. In most cases the account name will be something like "infoapplefeed". The parser will search through the bulliten boards seraching for a board name with a matching name (infoapple) in this case and once found will write the new message to the base. Modifications in the standard GBBS code will have to be of the order of a modification to the message segment that when a person wants to auto-reply or post to one of these special feed boards that it passes control to the mailer. This of course is about the only major modification required to GBBS code for operation.
+
+The parser works something like this:
+
+1) Reads vars and message in.
+2) Pulls out the path header and takes all the characters to the left of the first "!" character.
+3) Checks the "first node" against the entries in the dir.min file (an id file) and if found determines a number to which to write the file out under.
+4) If not found in dir.min, it is checked against the "paths" file, where if found a path is substituted for the single site and control is passed back to #2.
+5) If not found in paths, then domain parsing would occur.
+6) If not domain parsed it will bounce.
+
+The transfer protocol for the system is DEAD simple.
+
+The host system (system recieving the call) will upon detecting an account name of "mailer" (or whatever) will link to a special segment. This segment prints "id:" and waits for the systemname;password before continuing. It then switches into ymodem batch recieve mode and recieves until a blank file name is passed with which the system reverses roles and the host system searches out for the files for the calling system and sends them via ymodem-batch until a blank file name is passed on which the systems hangup each other and take the recieve batch list and parse individual files one by one.

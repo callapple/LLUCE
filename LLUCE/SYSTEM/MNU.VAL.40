@@ -1,0 +1,23 @@
+BCDEFGHILNQSTUVX
+::::::::::::::::::::::::::::::::::::::
+:     List of Supported Commands     :
+::::::::::::::::::::::::::::::::::::::
+:   <(B)> Goto the Bulletin Boards   :
+::::::::::::::::::::::::::::::::::::::
+: E -> Goto Electronic Mail Segment  :
+: F -> Feedback to the Sysop         :
+: G -> General files menu            :
+: H -> See the detailed help file    :
+: I -> Read System Information       :
+: N -> Read the latest System News   :
+: T -> Terminate connection (Logoff) :
+: C -> Chat With the Sysop           :
+: D -> Define System Configurations  :
+: U -> See list of users on system   :
+: S -> Show your account status      :
+::::::::::::::::::::::::::::::::::::::
+: L -> Log of todays callers         :
+: Q -> Quick scan of bulletin boards :
+: V -> Goto the Voting Segment       :
+: X -> Goto the file transfer area   :
+::::::::::::::::::::::::::::::::::::::

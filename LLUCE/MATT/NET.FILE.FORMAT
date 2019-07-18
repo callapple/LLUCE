@@ -1,0 +1,91 @@
+File formats for LLUCE-NET files and descriptions
+
+Basic Message File
+------------------
+
+This file format is for all inter-lluce-net traffic, message files between systems and the format of messages files being passed off to parse.s for processing.
+
+ print #msg(x),fr$,tr$,sb$\dt$,pp$,ft$:copy #6,#8
+
+Six headers:
+
+fr$ = the source of the message or who it is from.
+        in the form "site!user DATE and TIME".
+
+tr$ = the originally typed in address of the letter
+        In the form "site!user" or "user@site" with
+        associated domain identifiers.
+
+sb$ = subject of the letter in plain text format
+
+dt$ = date the original letter was sent
+        In the form "XX/XX/XX XX:XX:XX XM" or UNIX style format
+        It is not necessary to have it in a specific form, whatever
+        is felt neccessary
+
+pp$ = path to the user. This is in PURE UNIX style bang paths with
+        domain identifiers allowed. In the form "site!site1!site2!user"
+        or "site!site.park.domain!user"
+
+ft$ = source of the message. It is in "user@site.domain (Full User)" form.
+
+The text of the message can contain extra headers at the top of the message, as seen fit by the author of the mailer. They will be neither looked at or relied on for any information. It is likely that in UUCP sourced messages there will be extra headers passed on into the LLUCE-net and therefore those messages will appear in the text of the message.
+
+
+Text Style Message Format
+-------------------------
+
+Messages that do not fit the standard LLUCE message file format can be written in an alternative format. This format is compatible with ProLine and hence compatible with UUCP sites. The standard Apple // delimited text file will have the UUCP/ProLine standard headers. This information is availible from "sysop@pro-generic.pro" if required.
+
+
+Binary File Format
+------------------
+
+Alternatively, if information needs to be transmitted that isn't in a text format it can be placed in a file that will be transmitted through a LLUCE-NET system. The format for this message is a file of TXT format. It has four header lines in normal text format (ProLine/UUCP style) like below:
+
+From_ <- fr$ format
+To: <- tr$ format
+Date: <- dt$ format
+Subject: <- sb$ format
+
+Then follows as many lines of normal text as the sending user sees fit and finally a control-j present on a line by itself. What follows is the file in Binary II format (or NuFX). I have neither written anything supporting this format or plan to. It is above my power and time constraints. But this is a possibility only restricted by your imagination. (And the users stupidity in having the power to send files across the network).
+
+
+Paths file
+----------
+
+A file exists to control the parsing of mail. It is referenced to if the piece of mail currently being parsed is being sent to a site that is not local to the site parsing the mail. It allows mail to be sent with an address of "site!user" even if "site" is a local site, as it can be path aliased by the parser. The paths file (residing in G:) looks like this
+
+sitename: path!to!dest!sitename!*
+.domain: path!to!dest!domainhandler!*
+.park.domain: path!to!sorta!domainhandler!*.park
+
+
+If mail was addressed to "user@system.domain" the local parser just needs to know how to get mail to the system that is in control of the ".domain" domain. In this case the parser would place "path!to!dest!domainhandler!system!user" in pp$. Once the path has been parsed, it is run through parse again to make sure the first site listed in the new address is a legit single hop site and if not is parsed again.
+
+
+Aliases file
+------------
+
+This file allows the sysop to control the flow of mail, distribution of newsfeeds and so forth. If mail was received to an address and it was to be sent to two users instead of one this is where it is controlled from. The format of the file is in the form:
+
+destaddress
+ mailaddress anothermailaddress an!off!site!address
+ another!offsite!address
+
+If mail was recieved to the local address "destaddress" it would have copies made and sent to all the addresses listed above. As above the second line as a starting space and therefore is part of the list of addresses from the line before. Special formats exist for any of the addresses listed in the aliases file (stored in g:). If the address starts with a "#" character, a copy is sent to the mailbox number after the "#" character. I.E.:
+
+sysop
+ #1
+root
+ #1
+systemgod
+ #1
+
+If the address starts with a "%" (note both the # and % characters are illegal for use as intersystem address and hence used here for local purposes because they are guaranteed to work) then the message is sent to message board number following the "%" character. For example, with newsfeeds, if a site was not only recieving the feed but passing it off to another site an entry in the aliases file would look like this:
+
+infoapple: %6 infoapple@nextsite
+
+This would post the message sent to infoapple on the local site on board #6 as well as send it off to the address infoapple on "nextsite".
+
+IMPORTANT: Both the dir.min, aliases, and paths file MUST end with a blank carriage return, otherwise it will crash the mailer.

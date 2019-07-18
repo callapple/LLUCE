@@ -1,0 +1,21 @@
+BCDEFGKLNPQRSTW
+:::::::::::::::::::::::::::::::::::::::
+:     System Level Vaild Commands     :
+:::::::::::::::::::::::::::::::::::::::
+: B - Board Maintanence               :
+: C - Change Drive Specifiers (temp)  :
+: D - DOS commands                    :
+: E - Edit a users Account            :
+: F - Edit Security Flags             :
+: G - Get (edit) a text file          :
+: K - Kill a Users Account            :
+: L - View System Log                 :
+: N - Add a New User                  :
+: P - Print (view) a User List        :
+: R - Read request file               :
+: S - Show a text file                :
+: T - Terminate Connection            :
+: W - Update System News              :
+: Q - Quit to Main Level              :
+:::::::::::::::::::::::::::::::::::::::
+

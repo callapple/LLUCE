@@ -1,0 +1,133 @@
+
+       STANDARD MEMORY (64K)           |       ALTERNATE MEMORY (128K)
+---------------------------------------+0000----------------------------------
+                                       |       Monitor reserved
+                                       +FF00---------------------------------
+                                       |       Scratch RAM(3)
+                                       +FE00---------------------------------
+                                       |       Scratch RAM(2)
+                                       +FD00---------------------------------
+                                       |       Scratch RAM(1)
+                                       +FC00---------------------------------
+                                       |       Scratch RAM(0)/RAM
+                                       +FB00---------------------------------
+                                       |
+                                       | FA00  In use emulation strings
+                                       | F9F4  Math work area
+                                       | F9E9  Device in use table
+                                       | F9E0  Link label
+                                       | F960  Pathname buffers
+                                       | F8A0  FOR stacks
+                                       | F880  GOSUB stack
+                                       | F840  WHILE stacks
+                                       |       DO stacks
+                                       +F800----------------------------------
+                                       |
+                                       | F61F  Free area
+                                       | F576  Editor I/O routines
+                                       | F542  Message file work area
+                                       | F532  Misc tables
+                                       | F4F6  I/O vectors & flags
+                                       | F4EA  String compare routine vectors
+                                       | F478  Date text
+                                       |       Pathnames
+                                       +F400---------------------------------
+                                       |       Token jump table (to F37C)
+                                       +F200---------------------------------
+                                       |       Entry points
+                                       +F100---------------------------------
+                                       |       Profanity filter
+             ProDOS kernel             +F000---------------------------------
+                                       |
+                                       |
+                                       |              Overlays
+                                       |
+                                       |
+                                       |
+                   +E000---------------+E000---------------+
+                   |                   |       Emulation   |
+                   |                   |       String      |
+                   |       Screen top  |       Save area   |
+                   |                   +DF00---------------+
+                   |                   |       Fixed       |
+                   |       messages    |       ANSI        |
+                   |                   |       tables      |
+                   |                   +DE00---------------+
+                   +DD00---------------+       Extra       |
+                   |       Misc msgs   |       LLUCE       |
+                   +D900---------------|       code        |
+                   |                   +D800---------------+
+                   |       Error msgs  |                   |
+                   |                   |       Token text  |
+                   +D500---------------+                   |
+                   |                   +D400---------------+
+                   |                   |       Type ahead  |
+                   |       ProDOS quit +D300---------------+
+                   |                   |       Ramdisk     |
+                   |       code buffer +D200---------------+
+                   |                   |       CRC high    |
+                   +D100---------------+D100---------------+
+                   |       Reserved    |       CRC low     |
+D000---------------+D000---------------+D000---------------+D000-------------
+       I/O area                                I/O area
+C000-----------------------------------+C000---------------------------------
+       ProDOS globals                  |       Reserved
+BF00-----------------------------------+-------------------------------------
+       Message file buffer             |
+BB00-----------------------------------+
+       File buffer 2                   |
+B700-----------------------------------+
+       File buffer 1                   |
+B300-----------------------------------+
+       Message directory buffer        |
+B100-----------------------------------+
+       Message block buffer 2          |
+B080-----------------------------------+
+       Message block buffer 1          |       Free area
+B000-----------------------------------+
+       Message file bitmap buffer      |
+AF80-----------------------------------+
+       Interrupt character buffer      |
+AF00-----------------------------------+
+       File buffer 3                   |
+AB00-----------------------------------+
+       Editor buffer                   |
+9B00-----------------------------------+
+       Segment/variables area (19.25k) |
+4E00-----------------------------------+       (Used by variable packer)
+                                       |
+                                       +4000---------------------------------
+       LLUCE main code                 |       Free area
+                                       +2800---------------------------------
+       and console driver              |       Screen save area (shared)
+                                       +2000---------------------------------
+                                       |
+                                       |
+0F00-----------------------------------+
+       Modem initialization string     |
+0ED0-----------------------------------+
+       Modem answer string             |
+0EC0-----------------------------------+
+       Modem driver                    |       Free area
+0B00-----------------------------------+
+       Clock driver                    |
+0A00-----------------------------------+
+       Printer driver                  |
+0900-----------------------------------+
+       LLUCE global page               |
+0800-----------------------------------+0800---------------------------------
+       Video buffer                    |       Video buffer
+0400-----------------------------------+0400---------------------------------
+       Misc ProDOS/monitor vectors     |
+03D0-----------------------------------+
+       Free area, Overlays should use  |
+       this area for their ProDOS tbls |       ProDOS reserved
+0300-----------------------------------+
+       Pathname buffer                 |
+0280-----------------------------------+-------------------------------------
+       Input line buffer               |       Chat prompt line save area
+0200-----------------------------------+0200---------------------------------
+       ProDOS/monitor stack            |       LLUCE stack
+0100-----------------------------------+0100---------------------------------
+       ProDOS/Monitor zero page        |       LLUCE zero page
+0000-----------------------------------+0000---------------------------------

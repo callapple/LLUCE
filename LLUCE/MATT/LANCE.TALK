@@ -1,0 +1,22 @@
+LLUCE requirements for Networked setup:
+
+1) Obvious "link"ages into the email segment
+2) System segment commands to do a manual parsing of needed files
+3) The support of a different variable containing the systems "network" site name
+4) Status flags for a networked message base
+5) Modifications to the wait routine to allow it to link out at a specified time (code availible if you want it).
+
+Message segements modifications:
+
+6.1 - Networked message bases must have string (for each message base) containing a network mail address (for feeds)
+6.2 - When replying to a networked message base, the message segment must link to the mail segment to a specific label.
+
+7) During the login, if the users name is a specified name, link to a specific segment
+
+During the setup phase of GBBS, prompts should be added to ask for:
+        a) network site name
+        b) bps call out speed
+
+I will write a complete network maintenance segment.
+
+I have tested my amdss and mdss segments all today.. They all work great! Everything works wondeful, including aliasing etc.

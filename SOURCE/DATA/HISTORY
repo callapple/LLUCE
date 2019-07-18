@@ -1,0 +1,988 @@
+Date	Who
+Segment		Action : Description
+----------------------------------------------------
+11/04/89 AMW
+
+SETUP		Changed: Allows shell programs to insert pathnames
+		Added  : Additional error checking display of actual LLUCE
+			 pathname
+INIT		Bug Fix: Useing pathname supplied by shells
+-----------------------------------------------------
+11/06/89 AMW
+
+SETUP		Changed: Default pathname so that the current prefix is used
+			 with the filename LLUCE.SYSTEM
+START
+PROG.SUBS
+MISC.CMDS	Removed: RSETUP and all calls to it
+START		Changed: IRQ handler now calls modem routine
+DISK		Bug Fix: DO_MAKE, message file create
+LOAD		Bug Fix: LD_MOD0, if .S and .C files dont exist
+-----------------------------------------------------
+11/07/89 AMW
+
+ALL SEGMENTS	Added  : History section
+		Added  : Segment titles
+MAKE.DRIVERS
+LLUCE
+GLOBALS		Renamed: DRVSPEC to GLOBALS
+FILTER		Removed: SUCK from list (too common in context)
+ALL MODEMS	Changed: For LLUCE
+-----------------------------------------------------
+11/09/89 AMW
+
+EQUATES		Changed: Interrupt ROM vector address
+START		Moved  : Modem IRQ setup call from IO.CMDS to START
+		Bug Fix: STACKSET, page 0 is not used
+TOKENS		Added  : Second token text list and second token jump table
+INIT		Removed: SEI's so network can be used
+COMP.MAIN	Added  : In-line/multiple line comments works same as Pascal
+			 { } but not */ /* (Changed to C syntax later)
+-----------------------------------------------------
+11/10/89 AMW
+
+MAKE.DRIVERS
+LLUCE
+INIT		Added  : 1 page for drivers
+GLOBALS
+INIT		Added  : AppleShare stuff
+PROG.SUBS	Added  : Code for second dispatch table
+INIT		Added  : Check for 128K 'enhanced'
+		Removed: Reset vector patch
+COMP.MAIN	Changed: TOKEN for different way to search which makes this
+			 thing fly
+		Added  : Code for double token tables
+ALL MODEMS	Added  : Interrupt buffers (removed later)
+-----------------------------------------------------
+11/11/89 AMW
+
+STRING
+TOKENS
+COMP.MAIN	Added  : UPPER/LOWER/MIXED case conversions
+DATETIME	Bug Fix: DATE$, any year can be used
+			 (also fixes same problem in WHEN$)
+-----------------------------------------------------
+11/12/89 AMW
+
+STRING
+TOKENS
+COMP.MAIN	Added  : TRIM command
+-----------------------------------------------------
+11/13/89 AMW
+
+EQUATES		Added  : Error address location ($E0)
+			 Equate for RAMAREA WORD pointer
+START		Added  : Save of error location (for RESUME)
+FLOW
+TOKENS
+COMP.MAIN	Added  : RESUME command
+MISC.CMDS	Changed: CLEAR, resets error location
+RAMCARD		Added  : 'no error occurred' message
+-----------------------------------------------------
+11/14/89 AMW
+
+SETUP		Changed: For new START location in LLUCE
+MAKE.DRIVERS
+LLUCE
+INIT		Added  : Another page for drivers
+LLUCE		Moved  : System entry point here
+		Split  : RAMCARD into 3 parts TOKENS, RAMCARD And RAMAREA
+			 (RAMAREA will be duplicated in OVERLAYS)
+GLOBALS		Added  : ProDOS entry point vector
+RAMAREA		Removed: Labels SYMNUM, LBLNUM, LNCNT2, TOKTYP
+DISK
+INIT		Changed: ProDOS calling routine and quit routine to use vector
+			 in global page
+MEMORY
+TOKENS
+COMP.MAIN	Added  : WORD function
+INIT		Moved  : Code (move to page 3 not required any more)
+		Changed: Id routine rejects only unenhanced ROM signatures
+		Removed: 65C02 opcodes before id test
+		Moved  : Init routines to end of LLUCE instead of beginning
+COMPILER	Changed: For multiple PUT files
+COMP.MAIN	Removed: Label LNCNT (now located in RAMAREA)
+EDIT.SUBS	Added  : DO_MATH, ascii to hex convert
+-----------------------------------------------------
+11/15/89 AMW
+
+EQUATES		Added  : Modem slot
+		Added  : CRC table buffers
+-----------------------------------------------------
+11/16/89 AMW
+
+ALL MODEMS	Changed: MDMIRQ to handle IRQs
+-----------------------------------------------------
+11/20/89 AMW
+
+LLUCE		Changed: Gets modem driver from MODEMS directory
+EQUATES
+IO.CMDS		Added  : MDM1, flashing apple indicator
+-----------------------------------------------------
+11/21/89 AMW
+
+LLUCE
+GLOBALS		Moved  : Startup pathname from GLOBALS to LLUCE
+PROG.SUBS	Bug Fix: NUMIN and ZNUMIN for negatives
+INIT		Added  : Prefix check at start of INIT
+EDIT.SUBS	Bug Fix: NUMIN
+-----------------------------------------------------
+11/22/89 AMW
+
+LLUCE		Changed: All moved areas aligned to page boundarys
+
+LLUCE, CMD, CMD2, FLOW, STRING, MEMORY, DATETIME, IO.CMDS, MISC.CMDS
+		Moved  : Command segments into more logical pieces
+COMPILER
+COMP.MAIN	Moved  : Into 2 files for future stand-alone compiler
+-----------------------------------------------------
+11/23/89 AMW
+
+OVERLAY.CRC	Added  : Program to calculate CRC's for overlays
+GLOBALS
+PROG.SUBS	Added  : CRC16 routine, tables and storage
+LOAD		Added  : CRC test for overlays
+RAMCARD		Added  : 4 bytes to overlay ID areas (8 total)
+INIT		Added  : CRC check for main code
+ENCODE		Added  : CRC count
+ALL OVERLAYS	Added  : Storage for CRC and code size
+-----------------------------------------------------
+11/27/89 AMW
+
+IO.CMDS		Changed: MDM1, flashing apple time constant
+INIT		Bug Fix: CRC check
+-----------------------------------------------------
+11/28/89 AMW
+
+EQUATES		Added  : Equate for line 23
+GLOBALS		Added  : Time display flag
+FLOW		Bug Fix: IFGOB, could cause errors
+			 when 2nd token table was used
+DATETIME
+TOKENS		Added  : DO_TIME2, for 12 hour time
+IO.CMDS		Changed: MDM1, for 2 flashing apples time and apples moved to
+			 line 23 allows 12 or 24 hour time display selection
+			 from global page
+MISC.CMDS	Changed: Variable LET routine, makes sure all strings are in
+			 string space
+TOKENS
+COMP.MAIN	Changed: Token order
+-----------------------------------------------------
+11/30/89 AMW
+
+TOKENS		Added  : Room for special tokens at beginning of table
+-----------------------------------------------------
+12/01/89 AMW
+
+ALL PRINTERS
+ALL CLOCKS	Moved  : Into different files
+-----------------------------------------------------
+12/17/89 AMW
+
+EQUATES		Removed: Typeahead buffer (See PROG.SUBS)
+		Changed: Size of ramdisk to 256 bytes
+		Moved  : Ramdisk to ramcard area
+IO.SUBS		Changed: PUTCHR and GETCHR for 256 byte buffer
+		Moved  : Typeahead buffer to modem driver space
+PROG.SUBS	Changed: RAMIN/RAMOUT for 256 byte buffers RAMIN/RAMOUT buffer
+			 to ramcard ADDCRC to save X
+MISC.CMDS	Bug Fix: EDIT SET/CLEAR
+ENTRY		Added  : Entry point for ADDCRC
+EQUATES		Changed: Buffer locations
+DISK		Changed: DO_OPEN, support for 3 files
+			 IFOPEN,	"
+			 DO_CLOS,	"
+			 DO_CL3,	"
+			 DISKIN,	"
+			 DSKOUT,	"
+			 GETDEV,	"
+			 CHKDSK,	"
+			 GET_CHNL,	"
+			 DO_MARK,	"
+			 DO_SHOW,	"
+			 DO_MAKE,	"
+MSG		Changed: DO_RDY, changed ref numbers
+MISC.CMDS	Changed: DO_CLR, changed ref numbers
+RAMCARD		Added  : Third file channel to INPVEC/OUTVEC
+		Changed: DEVTBL for third file channel
+		Added  : Third position to REFTAB
+		Added  : Third file buffer address to BUFADR
+-----------------------------------------------------
+12/18/89 AMW
+
+START		Added  : SOFTEV fix so reset does not reboot if M or S is
+			 entered to the restart prompt
+IO.CMDS		Changed: Window function.  window can no longer be read.
+			 All parms can now be set
+			 NOTE: screen handler not changed
+-----------------------------------------------------
+12/26/89
+
+LOAD		Changed: AUXTYPE test for .S files to retain compatibility with
+			 programs that check AUXTYPE for record length
+-----------------------------------------------------
+12/28/89 AMW
+
+MSG		Changed: DO_RDY, FINISH, DO_MSG, MSG and DO_CNCH
+			 for 24 bit numbers, 16 byte header
+DISKIO		Changed: POSMSG, for 16 byte header
+-----------------------------------------------------
+12/29/89 AMW
+
+EQUATES		Added  : Characters for normal, inverse and mousetext
+			 to editor characters
+		Changed: Editor hack line from ^T to ^Y (Apple suggested)
+RAMAREA
+MSG
+MISC.CMDS	Added  : More descriptive labels for MSGINFO
+DISK		Bug Fix: MAKEMSG to zero DEVUSED
+		Changed: MAKEMSG for larger MSG directory size.
+			 Allows for 24 bit numbers in messages
+EDIT.MAIN	Added  : Normal, inverse and moustext
+-----------------------------------------------------
+12/30/89 AMW
+
+ALL SEGMENTS	Moved  : All history to separate file
+RAMCARD		Changed: Error messages
+-----------------------------------------------------
+12/31/89 AMW
+
+PROG.SUBS	Bug Fix: LIST, when displaying secondary tokens
+-----------------------------------------------------
+01/02/90 AMW
+
+LOAD		Bug Fix: Filename too long returns proper error.
+			 If segment and source dont exist returns error
+DATETIME	Changed: WHEN$ to allow specified dates
+-----------------------------------------------------
+01/03/90 AMW
+
+IO.SUBS		Moved  : PUTCHR & GETCHR to HIGH.SUBS
+PROG.SUBS	Moved  : INPTYP, BINDEC8, ADDCRC, RAMIN & RAMOUT to HIGH.SUBS
+VAR		Moved  : DO_FRE to HIGH.SUBS
+FLOW		Moved  : IFGOB, DO_NOCD & DO_ONERR to HIGH.SUBS
+MISC.CMDS	Moved  : CLRSMT & DO_RNDS to HIGH.SUBS
+HIGH.SUBS	Added  : New file for above routines
+MODEMS		Moved  : Typeahead buffer to ramcard area free up 1 page
+LLUCE
+INIT		Changed: For moved typeahead buffer
+-----------------------------------------------------
+01/07/90 AMW
+
+DISK		Changed: DO_MAKE, for 8K messages in file
+MSG		Bug Fix: Messed up block pointers
+-----------------------------------------------------
+01/08/90 AMW
+
+START		Bug Fix: STACKSET, X now saved in main memory (STACKSET removed
+			 later as it could not work as a subroutine)
+DISK		Changed: Rearranged routines, in a more ProDOS call order
+-----------------------------------------------------
+01/10/90 AMW
+
+DISK		Moved  : MAKEMSG to MSG
+MSG		Bug Fix: Message System Number Storage
+		Bug Fix: Made very large disk file (Sparce)
+		Added  : MSG(X,0..3)
+-----------------------------------------------------
+01/11/90 AMW
+
+SETUP		Changed: To allow any serial number.
+-----------------------------------------------------
+01/12/90 AMW
+
+SETUP		Bug Fix: Pointers not reset after first setup
+-----------------------------------------------------
+01/30/90 AMW
+
+IO.SUBS		Bug Fix: GET, OA commands, convert to upper case
+-----------------------------------------------------
+01/31/90 AMW
+
+LLUCE		Changed: Version number to beta 1
+LOAD		Added  : Compiler version test
+VAR		Bug Fix: STRCOPY, now checks string length
+RAMCARD		Added  : Incompatible compiler version message
+INIT		Added  : Version number insertion
+COMPILER	Added  : Version number
+COMP.MAIN	Added  : Version number storage
+-----------------------------------------------------
+02/03/90 AMW
+
+MISC.CMDS	Bug Fix: DO_LET, new string test removed, all strings not in
+			 variable space moved to string stack.
+-----------------------------------------------------
+02/06/90 AMW
+
+FINDOPEN	Changed: Field parameter added.
+			 Returned code now in field parameter
+		Bug Fix: Returned codes are proper codes now
+-----------------------------------------------------
+02/12/90 AMW
+
+VAR		Changed: VARSET, extra entry point added
+			 for variable search by name
+FLOW		Changed: DO_FOR, instead of variable location used for NEXT,
+			 variable name now used
+		Changed: DO_NEXT, variable searched for by name instead of
+			 location, variable may now be specified for NEXT.
+MISC.CMDS	Changed: DO_LET, if string variable is being set,
+			 then CHKFRE is executed.
+-----------------------------------------------------
+02/14/90 AMW
+
+IO.CMDS		Bug Fix: Print routine skipped commas, clear hi bit
+INIT		Added  : Check for last used device, per apple removal of
+			 /RAM device
+-----------------------------------------------------
+02/23/90 AMW
+
+VAR		Bug Fix: Added check for high order tokens.
+			 Fixes problem with INPNUM checking invalid tokens
+-----------------------------------------------------
+03/01/90 AMW
+
+EQUATES
+GLOBALS		Changed: Moved ERRNO from EQUATES to GLOBALS
+MISC.CMDS	Bug Fix: DO_LET, strings not getting moved to scratch RAM.
+-----------------------------------------------------
+03/05/90 AMW
+
+(OVERLAYS DIR)
+ENTRY		Bug Fix: Modem driver size back to $400 bytes
+RNDSORT		Bug Fix: Main bug from wrong modem driver size put read/write
+			 Routines in subroutines rearranged code so no reload.
+EDIT.MAIN	Bug Fix: ED_RW pathname now moved properly
+-----------------------------------------------------
+03/19/90 AMW
+
+INIT		Changed: AppleTalk ID routines.  Checks if AppleTalk available,
+			 and if LLUCE launched from an AppleTalk volume
+GLOBALS		Added  : AppleTalk launch flag
+-----------------------------------------------------
+03/20/90 AMW
+
+START		Changed: Removed STACKSET (Possibly causes AppleTalk to crash)
+-----------------------------------------------------
+03/24/90 AMW
+
+ALL SEGS WITH	Added  : Code for AppleTalk special open
+FILE OPEN CALLS		 for file locking on network
+-----------------------------------------------------
+03/26/90 AMW/LTW
+
+INIT		Bug Fix: AppleTalk now recognized as existing and as launching
+			 volume.  Global flags now set properly.
+-----------------------------------------------------
+03/29/90 AMW
+
+ALL SEGS	Added  : Extra comments added some extra code removed
+-----------------------------------------------------
+04/13/90 AMW
+
+GLOBALS		Added  : Screen saver timeout value
+IO.CMDS		Added  : Screen saver while waiting for call
+HIGH.SUBS	Added  : Screen data move routines
+-----------------------------------------------------
+04/14/90 AMW
+
+PROG.SUBS	Changed: Negative conversion for INPNUM
+VAR		Changed: Rearranged routines
+MATH		Bug Fix: Multiply/Divide start and end routines
+			 for negative numbers
+-----------------------------------------------------
+04/16/90 AMW
+
+COMPILER	Changed: Split compiler into sections for easier modifications
+COMP.MAIN	Added  : Check for line continue character
+			 to allow more free-form coding
+COMP.SUBS
+COMP.TOKENS	Changed: Split from compiler main code
+-----------------------------------------------------
+05/03/90 AMW
+
+EQUATES		Changed: Location of scratch ram buffer
+MEMORY		Changed: RAM, to allow 4 ram areas accessed by RAM(X)
+MISC.CMDS	Changed: EDIT, so edit buffer location is returned by X=EDIT
+TOKENS
+COMP.TOKENS	Changed: Removed RAM2, RAM3 tokens
+MEMORY.MAP	Changed: To reflect changes to RAM
+SYNTAX		Changed: To reflect changes to RAM and EDIT commands
+LLUCE
+COMPILER	Changed: Version number to main program/compiler
+			 for token changes
+-----------------------------------------------------
+05/11/90 AMW
+
+MEMORY		Changed: FLAG, NIBBLE, BYTE, WORD, FILL, MOVE
+			 for positions greater than 255
+DISK		Changed: READ, WRITE for positions greater than 255
+-----------------------------------------------------
+05/12/90 AMW
+
+COMPILER
+COMP.MAIN
+COMP.SUBS
+COMP.TOKENS	Changed: Modified for ON GOSUB, GOTO, PUSH
+FLOW
+TOKENS.JMP
+TOKENS.TXT	Changed: Added ON GOSUB, GOTO, PUSH
+-----------------------------------------------------
+05/13/90 AMW
+
+LOAD		Changed: MOVNAME, changes illegal characters to '.'
+-----------------------------------------------------
+07/11/90 AMW
+
+STRING		Added  : LEFTRIM, leading space trim
+TOKENS.JMP
+TOKENS.TXT	Changed: TRIM to RTRIM$
+			 UPPER to UPPER$
+			 LOWER to LOWER$
+			 MIXED to MIXED$
+		Added  : LTRIM$
+-----------------------------------------------------
+07/17/90 AMW
+
+All Segs	Changed: All 'DO_' labels to remove the 'DO_'
+			 for more descriptive labels
+EQUATES		Changed: Repositioned zero page labels in a more logical order
+-----------------------------------------------------
+07/20/90 AMW
+
+MISC.CMDS	Bug Fix: LET, now properly allocates strings in high memory
+-----------------------------------------------------
+08/07/90 AMW
+
+MEMORY		Changed: FLAG, NIBBLE, BYTE, WORD will not store data at $0000
+-----------------------------------------------------
+08/08/90 AMW
+
+DATETIME	Bug Fix: DATE$, TIME$, FMTDATE$, WHEN$, FMTWHEN$
+			 forced copy of strings to dtring space
+-----------------------------------------------------
+09/21/90 AMW
+
+EQUATES		Added  : GS screen color equates
+GLOBALS		Added  : Flag for useing GS
+INIT		Added  : Check for GS
+IO.CMDS		Changed: Screen will blank on //e,
+			 Screen will change colors on GS
+-----------------------------------------------------
+05/01/91 AMW
+
+ALL SEGS	Added  : Contents header
+DISK		Added  : SYSSTORE, store variables from external
+			 SYSRCAL, recall variables from external
+-----------------------------------------------------
+Sometime between the last date and the following date AMW
+
+- Restructured source code directories
+- Completely rewrote the variable compress/uncompress routines
+- Rewrote STORE and RECALL to work with the new compression routines
+- Changed the variable handler to allow 4 char names, or to use less
+- Changed the compiler to so it will only put as many chars as are in a
+  variable's name into the code
+- Variables now use 8 bytes each instead of 6
+- Changed LIST to properly list the new variables and numbers
+- Made FREE use compress/uncompress to remove unused strings
+- Added the FLASH command to enable/disable GS screen color changes
+- Changed GETRAW so it keeps the status of the byte gotten
+- Fixed a problem with negative numbers causing overflows where they shouldn't
+- Major syntax changes to remove all the cryptic functions
+- Fixed FOR and NEXT to work with the new variable format
+- Added read/write multiple bytes routines to DISK, and entry points
+- Added OFF token
+- Removed INFO token
+- Changed all local and variable labels (in the source) to normal labels
+- Changed the compiler so it handles any of the changes mentioned that it
+  is supposed to handle
+- Fixed a bug in the compiler so it would handle block comments with the
+  { in the first column (Comments later changed, see 01/21/93)
+- EDIT SET/CLEAR changed to EDIT ON/OFF
+-----------------------------------------------------
+11/17/92 AMW
+
+START		Changed: code order so error messages aren't printed if
+			 the ONERR flag is set
+MISC.CMDS	Changed: EDIT command to pass the next token to the editor
+HIGH.SUBS	Bug fix: IFGOB to check the proper byte (next, not current)
+EDITOR		Bug fix: Changed some DCI's to ASC's that caused problems
+			 when printing certain text
+-----------------------------------------------------
+11/18/92 AMW
+
+FLOW		Changed: RESUME to use the IFGOB routine to avoid code dup
+EDIT.SUBS	Bug Fix: FINDLN.  It wasn't counting down properly since a
+			 LDA was missing (left out by accident when optimizing
+			 the editor's code)
+-----------------------------------------------------
+11/19/92 AMW
+
+HIGH.SUBS	Bug fix: IFGOB to not check for quotes in variable name eat
+-----------------------------------------------------
+11/22/92 AMW
+
+START		Changed: Clear the onerr flag prior to executing error handler
+COMP.MAIN	Bug fix: Public label area zero routine was clearing the
+			 wrong 128 bytes.
+HIGH.SUBS	Bug fix: IFGOB - so the ON token is handled properly (if at the
+			 start of a line, or statement, it's an ON x, ON ERROR
+			 or ON NOCAR, otherwise it's a modifier token)
+START		Bug Fix: PRGINIT - Changed call to CLOSE to PD_CLOSE
+			 This properly closes all files
+			 (it was not closing message files)
+MSG		Bug Fix: CRUNCH - Was still skipping 4 bytes (ACOS size)
+			 changed to skip 16 bytes per directory entry
+			 KILL2 - Killed 2 messages, the specified one and the
+			 one following.
+MSG		Changed: Removed text compression/decompression code.
+-----------------------------------------------------
+11/23/92 AMW
+
+STRING		Changed: INSTR - Added starting location
+COMPILER	Changed: Altered public label copier so it copies only public
+			 labels, and no extra garbage to file header block
+-----------------------------------------------------
+12/11/92 AMW
+
+DRIVEREQU	Added  : Entry points for MDMCBUF and MDMQUIT
+START		Added  : Call to MDMQUIT when quitting LLUCE
+DISKIO		Bug Fix: ADDINT parameter count changed to 2
+-----------------------------------------------------
+12/14/92 AMW
+
+COMP.MAIN	Bug Fix: Fixed bug that was caused by a ! (an ON token)
+			 in a literal.
+			 this resulted in the next GOTO, GOSUB or PUSH
+			 being interpreted as the corresponding ON xxx
+-----------------------------------------------------
+12/18/92 AMW
+
+IO.CMDS		Bug Fix: Changed ZP pointer used by screen save timer.
+			 This was being used by the screen move routines
+HIGH.SUBS	Bug Fix: Changed screen save/restore routines to only save
+			 and restore actual screen data, and not the holes
+INIT		Bug Fix: Changed the way interrupts are handled.
+			 Since P8 isn't available, IRQVEC ($3FE) is now patched
+			 to point to our interrupt handler instead of P8's
+-----------------------------------------------------
+12/21/92 AMW
+
+MISC.CMDS	Bug Fix: Changed random function to make it as random as
+			 possible
+PROG.SUBS	Added  : Additional increment of RNDNUM for more randomness
+-----------------------------------------------------
+12/23/92 AMW
+
+DISK		Bug Fix: Mark wouldn't work for channels > 1
+FLOW		Bug Fix: Else would terminate if a chr$(15) was embedded in
+			 quotes in the if false portion.
+-----------------------------------------------------
+12/29/92 AMW
+
+HIGH.SUBS	Bug Fix: Fix clear.  Improper register store.
+STRING		Changed: Changed to return a -1 if a string doesn't exist
+			 instead of 255 since 255 is now a valid character
+-----------------------------------------------------
+12/31/92 AMW
+
+XCAT		Changed: Made into overlay for LLUCE
+-----------------------------------------------------
+01/01/93 LTW
+
+START		Bug Fix: Error routine wasn't saving the error number
+IO.SUBS		Changed: SHOW_ERR, Removed store of error code. See above
+MISC.CMDS	Bug Fix: MODE, Returned the wrong mode number.
+
+01/01/93 AMW
+
+XCAT		Bug Fix: Wasn't closing the directory if a directory was open
+			 and a specific file number was supplied.
+COMP.TOKENS	Added  : EXIT token
+DISKIO		Added  : QUIT_TYP and QUITPATH labels in pd_quit
+DISK		Added  : EXIT routine
+COMP.MAIN
+COMP.SUBS	Bug fix: Fixed bug where blank lines were being skipped
+			 in text blocks
+-----------------------------------------------------
+01/03/93 AMW
+
+START		Bug Fix: Added test for no ON NOCAR routine installed.
+			 If none, works same as END statement.
+-----------------------------------------------------
+01/05/93 AMW
+
+IO.SUBS		Added  : Support for ANSI in output routines
+IO.CMDS		Added  : Support for ANSI in emulation routines
+		Added  : ANSI command
+		Bug fix: Fixed serial number display routine
+		Bug fix: MODEM ONLINE had Online instead of OnlineTkn for check
+TOKENS.TXT
+TOKENS.JMP
+COMP.TOKENS	Added  : ANSI token
+RAMCARD		Added  : ANSI char tables
+DRIVEREQU
+GLOBALS		Added  : ANSIFLAG
+-----------------------------------------------------
+01/11/93 AMW
+
+CONSOLE
+IO.SUBS
+IO.CMDS
+HIGH.SUBS
+TOKENS.JMP
+TOKENS.TXT
+RAMCARD
+COMP.TOKENS	Added  : Multi character ANSI strings, removed old stuff
+-----------------------------------------------------
+01/13/93 AMW
+
+VAR		Moved  : ARGTYP, STRCOPY to HIGH.SUBS
+MATH		Moved  : DO_MUL0, DO_DIV1 to HIGH.SUBS
+MSG		Moved  : SWPBLK to HIGH.SUBS
+STRING		Moved  : DO_NSR0, UPPERSTR, LOWERSTR, MIXEDSTR,
+			 RGTTRIM, LFTTRIM to HIGH.SUBS
+DATETIME	Moved  : DO_FDT2 to HIGH.SUBS
+TOKENS.TXT
+TOKENS.JMP
+COMP.TOKENS	Added  : ~, &, &=, &&, |, |=, ||, ^, ^=,
+			 <<, >>, <<=, >>=, ++, --,
+			 +=, -=, *=, /=, %, %=, != tokens
+COMP.MAIN	Changed: Made compiler scan for any non-numeric in input line
+-----------------------------------------------------
+01/14/93 AMW
+
+VAR
+MATH
+MISC.CMDS	Added  : Implemented &=, &&, |=, ||, ^=, <<, >>, <<=, >>=,
+			 ++, --, +=, -=, *=, /=, %= functions
+-----------------------------------------------------
+01/17/93 AMW
+
+IO.CMDS		Fixed  : All emulation stuff
+		Added  : Read of ANSI flag
+-----------------------------------------------------
+01/19/93 AMW
+
+COMP.MAIN
+COMP.SUBS	Added  : Textual support for C escape sequences
+			 Support for HEX representation of numbers
+-----------------------------------------------------
+01/21/93 AMW
+
+COMP.MAIN
+COMP.SUBS	Changed: Text blocks and comments handled by separate
+			 routines.  Comments delimiters are /* and */
+FLOW		Changed: IF to handle blocks of code rather than a single
+			 line.
+IO.SUBS
+PROG.SUBS
+VAR
+MATH
+DISK
+IO.CMDS		Moved  : Code to allow BRA to the STZ SETRAM2, RTS sequence
+			 to save space
+IO.CMDS		Changed: \ character no longer supported in print statement
+			 \ character changed to | in input statement
+STRING		Changed: Made RTRIM$ and LTRIM$ not trim strings not in
+			 string space
+HIGH.SUBS	Changed: Moved code to allow branches to duplicate code
+COMP.TOKENS
+TOKENS.JMP
+TOKENS.TXT	Added  : Added '{' and '}' tokens
+-----------------------------------------------------
+01/24/93 AMW
+
+COMP.TOKENS
+TOKENS.JMP
+TOKENS.TXT
+TOKENS		Added  : Added DO and WHILE tokens
+EQUATES		Added  : DOLVL equate
+RAMAREA		Added  : DO stack
+FLOW		Added  : DO, WHILE and POP DO statements
+RAMCARD		Added  : 'DO stack full' and 'No pending DO' errors
+-----------------------------------------------------
+01/25/93 AMW
+
+EQUATES		Added  : WHILELVL equate
+RAMAREA		Added  : WHILE stack
+		Moved  : Message file work area to RAMCARD
+FLOW		Added  : WHILE statement (evaluate the while first)
+RAMCARD		Added  : 'WHILE stack full' error message
+			 Message file work area (from RAMAREA)
+-----------------------------------------------------
+01/30/92 AMW
+
+ALL SEGMENTS	Changed: Added macros to all segments
+INIT		Fixed  : Fixed bug in device removal routine for /RAM
+EDIT.MAIN	Fixed  : Fixed bug, Y not set when checking for data
+			 already in edit buffer
+COMP.MAIN	Fixed  : Line continue characters that didn't get changed
+COMP.SUBS	Fixed  : Fixed bug where hex escape sequences were placing
+			 double codes for complete bytes and changed alpha
+			 nibbles incorrectly
+PROG.SUBS	Fixed  : LIST was incorrectly setting the token table pointer
+			 for high order tokens
+		Added  : Display of control chars as inverse, except for BS,
+			 LF, VT and CR which show up as mousetext arrows
+IO.CMDS		Fixed  : Bug where a literal \0 would abort the literal
+RAMCARD		Changed: Moved all message stuff back here.
+			 Moved REMOTE and NULLS to GLOBALS and DRIVEREQU.
+			 Moved overlay info to RAMAREA.
+RAMAREA		Changed: Moved message stuff back to RAMCARD.
+			 Moved overlay info from RAMCARD.
+MSG		Changed: MAKEMSG now sets EOF instead of writing zeros.
+			 Removed references to 8-7 bit conversions.
+-----------------------------------------------------
+01/31/93-02/01/93 AMW	V 1.0D2
+
+MSG		Changed: Removed unnecessary code
+		Fixed  : Deleting last message now sets count to zero
+LLUCE
+COMPILER	Changed: Version number to 1.0D2
+EDITOR		Added  : Version number
+MISC.CMDS	Added  : Editor version number test
+HIGH.SUBS	Fixed  : SWPBLK0 had incorrect loop count
+-----------------------------------------------------
+02/02/93-02/03/93 AMW	V 1.0D3
+
+START		Changed: Main run call
+PROG.SUBS	Changed: RUNSUB2 to return after each call
+		Added  : RUN to execute a token or a block of code
+		Changed: BLKSTRT to RUNBLOCK
+MATH		Added  : Bitwise NOT
+FLOW		Changed: DO and WHILE to work as documented for ANSI/C
+		Changed: GOTO to reset any loops it leaves (any level)
+MISC.CMDS	Moved  : Logical NOT to MATH
+ENTRY		Added  : DO/WHILE loop type table (nowhere else to put it)
+TOKENS.JMP
+TOKENS.TXT
+TOKENS
+COMP.TOKENS	Added  : BREAK token, renumbered tokens
+RAMCARD		Moved  : OFFSET value to here
+EQUATES		Added  : WHATLVL for loop type table
+RAMAREA		Added  : DO end and WHILE end stacks, moved OFFSET to RAMCARD,
+			 put things back in a logical order
+XCAT		Fixed  : Call made to INPNUM that should have gone to INPSTR
+-----------------------------------------------------
+01/06/93 AMW
+
+COMP.MAIN	Fixed  : An ON following a FLASH, ANSI or EDIT would get
+			 interpreted improperly causing the next gosub, goto
+			 or push label to be skipped
+-----------------------------------------------------
+02/07/93 AMW		v 1.0f1
+
+CONSOLE		Changed: Removed interpretation of high bit set chars to
+			 control.  All high ASCII chars are ignored
+IO.SUBS		Changed: All printed chars are checked here for control
+			 sequences.  All emulation chars are converted.
+			 The clear screen token was changed to the clrscn char
+IO.CMDS		Changed: Emulation tokens are converted to the proper local
+			 emulation char prior to sending to console driver.
+INIT		Changed: Normal and Clear screen tokens changed to the
+			 proper control characters
+COMP.MAIN
+COMP.SUBS	Changed: Error handling.  Now displays text line, line number,
+			 error code, message and text pointer
+		Added  : Additional escape codes for emulation (control) codes
+			 \A, \B, \C, \D, \F, \G, \H, \I, \M, \N, \O, \P, \R
+			 \T, \V, \W, \Y, \Z
+ENTRY		Changed: Placed token for Undefined symbol in entry point list
+			 08 was selected as it's a PHP, and the BRA following
+			 the token branches to the actual jump (no return
+			 from this call, so the PHP is moot)
+TOKENS.JMP	Added  : Vector for Undefined symbol error
+RAMCARD		Removed: All error messages specific to the compiler
+ERRORS		Changed: To reflect the removal of compiler specific errors
+TOKENS		Added  : Undefined symbol token
+-----------------------------------------------------
+02/08/93 AMW		v 1.0f2
+
+COMP.MAIN
+COMP.SUBS	Changed: Lines have comments and trailing white spaces
+			 removed before the parser gets ahold of them.
+		Added  : \E escape code (missed it the first time)
+-----------------------------------------------------
+02/09/93 AMW
+
+IO.SUBS
+IO.CMDS		Fixed  : ANSI emulations now work properly.
+-----------------------------------------------------
+02/10/93 AMW
+
+EQUATES		Added  : Counter for emulation repeat conversion
+CONSOLE		Changed: Chars with high bit set allowed when the char is
+			 part of a gotoxy, tone or repeat argument
+IO.SUBS		Added  : Conversion of PT repeat when PT emulation isn't active
+MISC.CMDS	Changed: Large char strings to repeated chars
+-----------------------------------------------------
+02/10/93 AMW		v1.0F3
+
+COMP.MAIN	Changed: Version number to standard word
+			 Added test for CONVERT ON
+COMP.TOKENS	Added  : CONVERT token
+		Changed: Token numbers to use TOKENS.S file
+EDIT.MAIN	Changed: Version number to standard word
+IO.SUBS		Added  : Check of emulation conversion flag
+IO.CMDS		Moved  : FLASH and ANSI commands to MISC.CMDS
+MISC.CMDS	Moved  : FLASH and ANSI commands here
+		Added  : CONVERT command
+TOKENS.JMP
+TOKENS.TXT	Added  : CONVERT
+INIT		Changed: Version number set to standard word
+GLOBALS
+DRIVEREQU	Changed: Re-ordered to a more logical order
+		Added  : CONVFLAG for emulation conversion
+TOKENS		Added  : Convert token
+MACROS		Changed: TKN macro for DB of token number
+LLUCE
+COMPILER
+EDITOR		Changed: Version to 1.0F3
+-----------------------------------------------------
+02/18/93 AMW		v1.0F4
+
+CONSOLE		Changed: Top of screen message routine.  Uses message text.
+IO.SUBS		Added  : New message print routine
+		Changed: Error message print routine
+START
+MISC.CMDS	Changed: Uses new message print routine
+RAMCARD		Removed: Error message text
+TEXT		New    : New segment, contains all printable text
+ALL SEGMENTS	Removed: All single quote marks from comments
+-----------------------------------------------------
+02/20/93 AMW
+
+IO.SUBS		Fixed  : Changed immediate load for timeout value to get the
+			 value from the global page
+		Changed: Made exec mode print message #3 to the screen top
+			 Chat mode now properly prints message #2
+TEXT		Added  : Top of screen message #3 "[ Exec: On ]"
+GLOBALS		Changed: Placed timeout values for local/remote keyin
+-----------------------------------------------------
+02/24/93 AMW
+
+EQUATES		Added  : Save point for current segment name
+START		Added  : Call to segment name save routine
+DISK		Added  : Segment reload routine
+ENTRY		Added  : Entry point for RELOAD, COMPRESS, UNCOMPRESS
+-----------------------------------------------------
+02/26/93 AMW
+
+START		Added  : initialize CO_XY and CO_RPT to zero
+IO.SUBS		Fixed  : gotoxy and repeat chars got lost in PT emulation
+DISK		Changed: COPY, now allows lines longer than 255 characters
+IO.CMDS		Changed: call to SETPTERM goes to PTERM, PTERM sets TERMNO
+MISC.CMDS	Changed: CLRSMT, now resets DOLVL, WHILELVL and WHATLVL
+INIT		Added  : call to PTERM so default emulation table is set up
+-----------------------------------------------------
+02/28/93 AMW
+
+SHELL		New    : Began work: New overlay to allow shelling out to
+			 other system programs
+ENTRY		Added  : Entry point for DO_CL3 to allow closing all files
+			 and clearing channel in-use map (needed for SHELL)
+-----------------------------------------------------
+03/02/93 AMW
+
+EQUATES		Added  : /RAM driver info save locations
+DISK		Fixed  : Bug in SSYSTEMP.  String not properly setup
+DISKIO		Fixed  : PD_QUIT: Now restores /RAM if we disconnected it
+INIT		Fixed  : /RAM disconnect routine conforms to Apple guidelines
+-----------------------------------------------------
+03/03/93 AMW
+
+LLUCE		Changed: More specific description of version numbers
+START		Fixed  : Starting prefix saved in SEGSAVE before the segment
+			 name is added
+DISK		Fixed  : Bug in STORE: zero length strings no longer saved
+		Added  : CHAIN: Before getting segment name, gets and saves
+			 current prefix
+		Fixed  : SAVESEG now adds the segment name to an existing path
+IO.CMDS		Changed: Made version number print differently.
+			 Non-release versions will print as:  VV.TM
+			 Release versions will print as:      VV.M.S
+			 Where VV is the main version (lead zero not printer)
+			 T is test type (Alpha, Beta, etc..)
+			 M is the minor version number
+			 S is the sub-minor version number
+SHELL		Fixed  : Added additional error checking so missing files and
+			 prefixes are detected prior to moving code around
+		Fixed  : Code aux memory swap routines.  Swap in crashed.
+			 Now using the auxMove routines in ROM
+-----------------------------------------------------
+03/05/93 AMW
+
+IO.SUBS		Fixed  : Reversed standard XY order to YX order for PT.
+		Added  : Check for terminal number 0.  Acts same as CONVERT OFF
+SHELL		Changed: Removed save of unnecessary memory (save 14 blocks)
+SHELL.GS	New    : New GS specific version of SHELL
+-----------------------------------------------------
+03/06/93 AMW
+
+PROG.SUBS	Added  : FRMFLN, TOFLN - moves filename to and from buffer
+			 SWITCH2 - Switches in LC bank2 for read/write
+START		Changed: Filename moves to use FRMFLN and TOFLN,
+			 STZ SETRAM2, STZ SETRAM2 to call SWITCH2
+DISK
+LOAD		Changed: Filename moves to use FRMFLN and TOFLN
+ENTRY		Added  : Entry points for FRMFLN and TOFLN
+VAR
+MATH		Changed: Some code optimization
+COMPILER	Changed: Sets the modification time to 1 minute past the
+			 modification time of the source.  Avoids multiple
+			 compiles
+SHELL		Changed: Calls FRMFLN instead of moving filenames itself
+IO.SUBS
+IO.CMDS		Changed: A DEC of INCHAT to a MOVX #-1;INCHAT to allow setting
+			 INCHAT to a non-zero value so it can be tested to
+			 find out if chat has been entered
+-----------------------------------------------------
+03/07/93 AMW
+
+TXT.DECOMP	New    : New overlay: Decompiles LLUCE text to the editor
+			 buffer
+TXT.COMP	New    : New overlay: Compiles LLUCE text from the editor
+			 buffer
+-----------------------------------------------------
+03/08/93 AMW
+
+IO.SUBS
+IO.CMDS		Fixed  : ANSI emulation was sending the X and Y values
+			 in the reverse order to the modem
+-----------------------------------------------------
+03/11/93 AMW
+
+ALL OVERLAYS	Changed: File/aux type to conform to new type numbers
+COMP.MAIN	Changed: Compiled segment file/aux type
+DISK		Changed: STORE to save variables as type overlay
+MSG		Changed: Message file/aux type in MAKEMSG
+OS.EQUATES	Changed: File type info
+-----------------------------------------------------
+03/12/93 AMW
+
+SHELL		Changed: Interrupts aren't disabled during memory moves
+-----------------------------------------------------
+03/18/93 AMW
+
+IO.CMDS		Fixed  : GotoXY offset wasn't being set by the PTERM routine
+		Changed: Now allows for multiple literal strings and semicolons
+			 in prompt portion of input command.
+SHELL		Fixed  : Was clearing VIDECHO when it shouldn't have
+-----------------------------------------------------
+03/30/93 AMW
+
+SHELL		Changed: Default prefix is the prefix where the application
+			 being launched is rather than the current directory.
+-----------------------------------------------------
+04/03/93 AMW
+
+COMP.MAIN	Added  : Check for // for end of line comments
+COMP.TOKENS	Added  : ? token as alternate print command
+-----------------------------------------------------
+04/28/93 AMW
+
+LOAD		Added  : Changed pathname parser.  Any valid separator
+			 (/, \, or :) will now be accepted and converted.
+-----------------------------------------------------

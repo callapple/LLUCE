@@ -1,0 +1,410 @@
+********************************
+*                              *
+*  LLUCE Command Syntax        *
+*                              *
+********************************
+*
+* !                                              Bitwise NOT
+* %     (same as MOD)                            Remainder of divide
+* &     (same as AND)                            Bitwise AND
+* *                                              Multiply numbers
+* +                                              Add numbers/concat strings
+* -                                              Subtract numbers
+* /                                              Divide numbers
+* :                                              Statement separator
+* <                                              Compare less than
+* =                                              Equate or compare equals
+* >                                              Compare greater than
+* ^     (same as EOR and XOR)                    Bitwise exclusive OR
+* \                                              Line continuation
+* |     (same as OR)                             Bitwise OR
+* ~                                              Logical NOT
+* !=    (same as <>)                             Compare not equal
+* %=                                             Remainder to variable
+* &&                                             Logical AND
+* &=                                             Bitwise AND to variable
+* *=                                             Multiply to variable
+* ++                                             Increment variable
+* +=                                             Add to variable
+* --                                             Decrement variable
+* -=                                             Subtract from variable
+* /=                                             Divide to variable
+* <<                                             Bitwise shift left
+* <=                                             Compare less or equal to
+* <>    (same as !=)                             Compare not equal
+* =>                                             Compare greater or equal to
+* ==                                             Equate or compare equals
+* =<                                             Compare less or equal to
+* >=                                             Compare greater or equal to
+* >>                                             Bitwise shift right
+* ><    (same as !=)                             Compare not equal
+* ^=                                             Bitwise exclusive OR to var.
+* |=                                             Bitwise OR to variable
+* ||                                             Logical OR
+* <<=                                            Bitwise shift left to variable
+* >>=                                            Bitwise shift right to variable
+* Value    =ABS(Value)                           Make positive
+* AND   (same as &)                              Bitwise AND
+* EOR   (same as XOR and ^)                      Bitwise exclusive OR
+* MOD   (same as %)                              Remainder of divide
+* NOT   (same as !)                              Logical NOT
+* OR    (same as |)                              Bitwise OR
+* XOR   (same as EOR and ^)                      Bitwise exclusive OR
+*-------------------------------
+* ADDINT(String)                                 Add interrupt character
+* ANSI     OFF                                   Turn ANSI term emulation off
+* ANSI     ON                                    Turn ANSI term emulation on
+* Value    =ANSI                                 Get the value of ANSI
+*                                                0 = off, 255 = on
+* APPEND   #Channel(File)                        Append to a file
+* Value    =ASC(String)                          Get ASCII value of the first
+*                                                character of specified string
+*-------------------------------
+* Value    =BAUD                                 Get users baud rate
+* BREAK                                          Exit from DO or WHILE loop
+* BYTE     =Address                              Set byte address
+* Value    =BYTE                                 Get byte address
+* BYTE(Value8)                 =(Value8)         Set a byte
+* Value    =BYTE(Value8)                         Get a byte
+*-------------------------------
+* CALL     Address                               Call routine at address
+* CHAIN    Filename                              Chain to segment filename
+* CHAIN    Filename,Label                        Chain to segment filename
+*                                                Start at specified label
+* CHARDEL$                                       Send char delete sequence
+* CHARDEL$ =String(7)                            Set char delete sequence
+* String   =CHARDEL$                             Get char delete sequence
+* print    CHARDEL$                              Send char delete sequence
+* CHARINS$                                       Send char insert sequence
+* CHARINS$ =String(7)                            Set char insert sequence
+* String   =CHARINS$                             Get char insert sequence
+* print    CHARINS$                              Send char insert sequence
+* String   =CHR$(Value8)                         Make a 1 character string
+* String   =CHR$(Value8,Value8)                  Make a multi character string
+* CLEAR                                          See CLOCK, EDIT and MODEM
+*                                                statements
+* CLEAR                                          Clear variables
+* CLOCK    CLEAR                                 Set timer start
+* CLOCK    ONLINE                                Get time connected
+* CLOCK    =Value16                              Set time limit
+* Value    =CLOCK                                Get time limit
+* CLOSE                                          Close any open file(s)
+* CLOSE    #Channel(File)                        Close file at specified channel
+* CLRBOL$                                        Send clr to line begin sequence
+* CLRBOL$  =String(7)                            Set clr to line begin sequence
+* String   =CLRBOL$                              Get clr to line begin sequence
+* print    CLRBOL$                               Send clr to line begin sequence
+* CLRBOS$                                        Send clr to screen top sequence
+* CLRBOS$  =String(7)                            Set clr to screen top sequence
+* String   =CLRBOS$                              Get clr to screen top sequence
+* print    CLRBOS$                               Send clr to screen top sequence
+* CLREOL$                                        Send clr to line end sequence
+* CLREOL$  =String(7)                            Set clr to line end sequence
+* String   =CLREOL$                              Get clr to line end sequence
+* print    CLREOL$                               Send clr to line end sequence
+* CLREOS$                                        Send clr to screen end sequence
+* CLREOS$  =String(7)                            Set clr to screen end sequence
+* String   =CLREOS$                              Get clr to screen end sequence
+* print    CLREOS$                               Send clr to screen end sequence
+* print    CLS                                   Clear the screen
+* CLS                                            Clear the screen
+* CONTINUE                                       Continue DO or WHILE loop,
+*                                                bypass remaining statements
+* CONVERT  ON|OFF                                Switch emulation conversion
+*                                                mode on or off
+* COPY     Filename                              Copy a text file to console
+* COPY     (Lines)Filename                       Copy (lines) of a text
+*                                                file to the console
+* COPY     Filename,#Channel(File|7|9..10)       Copy a text file to device
+* COPY     (Lines)Filename,#Channel(File|7|9..10) Copy (lines) of a text file
+*                                                to device
+* COPY     #Channel(File|7..10),#(File|7|9..10)  Copy text from device to device
+* COPY     (Lines)#Channel(File|7..10),#(File|7|9..10) Copy (lines) of text from
+*                                                device to device
+* CREATE   Filename                              Create a text file
+* CREATE   Filename,Msg,Value16                  Create a message file
+* CREATE   Filename,Type8                        Create a file with Type8
+* CREATE   Filename,Type8,Subtype                Create a file with Type8,
+*                                                AuxType of Subtype
+* CRUNCH                                         Compact current message file
+* CURSORD$                                       Send cursor down sequence
+* CURSORD$ =String(7)                            Set cursor down sequence
+* String   =CURSORD$                             Get cursor down sequence
+* print    CURSORD$                              Send cursor down sequence
+* CURSORU$                                       Send cursor up sequence
+* CURSORU$ =String(7)                            Set cursor up sequence
+* String   =CURSORU$                             Get cursor up sequence
+* print    CURSORU$                              Send cursor up sequence
+* CURSORL$                                       Send cursor left sequence
+* CURSORL$ =String(7)                            Set cursor left sequence
+* String   =CURSORL$                             Get cursor left sequence
+* print    CURSORL$                              Send cursor left sequence
+* CURSORR$                                       Send cursor right sequence
+* CURSORR$ =String(7)                            Set cursor right sequence
+* String   =CURSORR$                             Get cursor right sequence
+* print    CURSORR$                              Send cursor right sequence
+*-------------------------------
+* DATE$    =String                               Set date (for no clock)
+* String   =DATE$                                Get date
+* DISK     LOCK                                  Reserve network
+* DISK     UNLOCK                                Release network
+* DO       statement  WHILE (expression)         DO loop
+* DO       { statements } WHILE (expression)     DO loop
+*-------------------------------
+* ECHO     =String                               Character to echo on input
+* EDIT                                           Enter the editor
+* EDIT     CLEAR                                 Clear editor buffer
+* EDIT     OFF                                   Turn off profanity filter
+* EDIT     ON                                    Turn on profanity filter
+* EDIT     =Filename                             Set editor filename
+* Value    =EDIT                                 Get editor buffer location
+* Value    =EDIT ERROR                           Get .X hack attempt
+* Value    =EDIT SIZE                            Get size of message
+* ELSE                                           See IF statement
+* END                                            See KEY statement
+* END                                            End program execution
+* EOF(Channel(File))                             Check for end of file
+* Value    =ERR                                  Get last error number
+* ERROR                                          See ON and EDIT statements
+* EXEC     =Value8                               Set exec user status
+* Value    =EXEC                                 Get exec user status
+* Value    =EXIST(Filename)                      Check If file exists
+* EXIT                                           Exit from LLUCE
+* EXIT     CompletePathname                      Exit from LLUCE, execute path
+*-------------------------------
+* FILL     Address,Bytes8,Value8                 Fill Address range with data
+* FLAG                                           See KEY statement
+* FLAG     =Address                              Set flag pointer
+* Value    =FLAG                                 Get flag pointer
+* FLAG(Value8)                 =(Value1)         Set a flag
+* Value    =FLAG(Value8)                         Get a flag
+* FLASH    ON                                    GS screen flash on
+* FLASH    OFF                                   GS screen flash off
+* FLUSH                                          Flush any open file(s)
+* FLUSH    #Channel(File)                        Flush specified file
+* String   =FMTDATE$                             Get formatted date
+* String   =FMTWHEN$                             Get stored formatted date
+* FOR      L=Value TO Value                      Loop from value to value
+* FOR      L=Value TO Value STEP Value           Loop from value to value
+*                                                stepping by specified count
+* FREE                                           Compact variables
+* FREE                                           See MSG statement
+*-------------------------------
+* GET      String|Number                         Get a single character
+* GOSUB    Label                                 Go to a subroutine
+*                                                Alse see ON statement
+* GOTO     Label                                 Go to a label
+*                                                Alse see ON, ON ERROR and
+*                                                ON NOCAR statements
+* GOTOXY$  (X-Value8,Y-Value8)                   Send gotoxy sequence
+* GOTOXY$  =String(7)                            Set gotoxy sequence
+* String   =GOTOXY$                              Get gotoxy sequence
+* print    GOTOXY$                               Send gotoxy sequence
+*-------------------------------
+* HOME$                                          Send cursor home sequence
+* HOME$    =String(7)                            Set cursor home sequence
+* String   =HOME$                                Get cursor home sequence
+* print    HOME$                                 Send cursor home sequence
+*-------------------------------
+* IF statement [THEN] statement [ELSE statement] Conditional
+* IF statement { statements } [ELSE statement]
+* IF statement [THEN] statement [ELSE { statements }
+* IF statement { statements } [ELSE { statements }
+* INPUT @n String|Number                         Get a line of text
+* Value    =INSTR(String1,String2)               Find a string in another string
+* Value    =INSTR(String1,String2,start8)        Find a string in another string
+*                                                starting at specified character
+* INVERSE$                                       Send invert chars sequence
+* INVERSE$ =String(7)                            Set invert chars sequence
+* String   =INVERSE$                             Get invert chars sequence
+* print    INVERSE$                              Send invert chars sequence
+*-------------------------------
+* Value    =KEY                                  Return keypress (if any)
+* Value    =KEY END                              1 If 'stop' char pressed
+* Value    =KEY NEXT                             1 If 'next' char pressed
+* Value    =KEY FLAG                             Any interrupt char pressed
+* KILL     Filename                              Delete a file
+*-------------------------------
+* String   =LEFT$(String,Value8)                 Get left part of a string
+* Value    =LEN(String)                          Get length of a string
+* LINEDEL$                                       Send line delete sequence
+* LINEDEL$ =String(7)                            Set line delete sequence
+* String   =LINEDEL$                             Get line delete sequence
+* print    LINEDEL$                              Send line delete sequence
+* LINEINS$                                       Send line insert sequence
+* LINEINS$ =String(7)                            Set line insert sequence
+* String   =LINEINS$                             Get line insert sequence
+* print    LINEINS$                              Send line insert sequence
+* LOCK                                           See DISK statement
+* LOCK     Filename                              Lock a file
+* LOWER$(String)                                 Convert string to lower case
+* LTRIM$(String)                                 Trim strings trailing spaces
+*-------------------------------
+* MARK(Channel(File|10))       =Value            Set file mark
+* Value    =MARK(Channel(File|10))               Get file mark
+* String   =MID$(String,Value8)                  Get part of a string, starting
+*                                                at specified point to end
+* String   =MID$(String,Value8,Value8)           Get part of a string, starting
+*                                                at specified point, for
+*                                                specified number of characters
+* MID$(string,Value8)=string                     copy a string into part of
+*                                                another, starting at specified
+*                                                point, to end of string
+* MID$(string,Value8,Value8)=string              copy a string into part of
+*                                                another, starting at specified
+*                                                point, to end of string, or to
+*                                                the specified size.
+* MIXED$(String)                                 Convert string to mixed case
+* MODE     =Value8                               Set backspace mode
+* Value    =MODE                                 Get backspace mode
+* MODEM    READY                                 Wait for a call
+* MODEM    NOCAR                                 Hang up
+* MODEM    ONLINE=Value8                         Dial out at Value8 * 100 baud
+* MODEM    TIME$=String                          Set auto logon time
+* MODEM    CLEAR                                 Clear auto logon
+* MOUSE$                                         Send mousetext sequence
+* MOUSE$   =String(7)                            Set mousetext sequence
+* String   =MOUSE$                               Get mousetext sequence
+* print    MOUSE$                                Send mousetext sequence
+* MOVE     Address,Bytes TO Address              Move data
+* MSG(Value16)                 =Value            Set message data
+* MSG(Value16,Value2)          =Value            Set message data indexed
+* Value    =MSG(Value16)                         Get message data
+* Value    =MSG(Value16,Value2)                  Get message data indexed
+* Value    =MSG FREE                             Get message file blocks free
+* Value    =MSG SIZE                             Get message file capacity
+*-------------------------------
+* NAME     Filename,Filename                     Rename a file
+* NEXT                                           End of closest FOR loop
+* NEXT     Nvar                                  End of specified FOR loop
+*                                                Alse see FOR and KEY statements
+* NIBBLE   =Address                              Set NIBBLE address
+* Value    =NIBBLE                               Get NIBBLE address
+* NIBBLE(Value8)               =(Value4)         Set a NIBBLE
+* Value    =NIBBLE(Value8)                       Get a NIBBLE
+* NOCAR                                          See ON and MODEM statements
+* Value    =NODE                                 Get network NODE number
+* NORMAL$                                        Send normal chars sequence
+* NORMAL$  =String(7)                            Set normal chars sequence
+* String   =NORMAL$                              Get normal chars sequence
+* print    NORMAL$                               Send normal chars sequence
+* NULLS    =Value8                               Set number of nulls
+* Value    =NULLS                                Get number of nulls
+*-------------------------------
+* OFF                                            See EDIT and FLASH statements
+* OFFSET   =Value8                               Set OFFSET character
+* Value    =OFFSET                               Get OFFSET character
+* ON                                             See EDIT and FLASH statements
+* ON ERROR :                                     Clear error detect
+* ON ERROR GOTO Label                            Set error routine
+* ON N GOTO Label1,Label2,Label3                 Indexed goto
+* ON N GOSUB Label1,Label2,Label3                Indexed gosub
+* ON NOCAR :                                     Clear carrier loss detect
+* ON NOCAR GOTO Label                            Set carrier loss routine
+* ON N PUSH Label1,Label2,Label3                 Indexed push
+* ONLINE                                         See CLOCK and MODEM statements
+* Value    =ONLINE                               Get online/local status
+* OPEN     #Channel(File),Filename               Open any file
+* OVERLAY  Filename[Parameters]                  Execute an overlay
+*-------------------------------
+* Value    =PDL(Value4)                          Get game control value
+* Value    =PEEK(Address)                        Get value at address
+* POKE     Address,Value                         Put value to address
+* POP                                            Remove subroutine
+* POP DO                                         Remove DO/WHILE from stack
+* POSITION #Channel(File),Reclen,Recnum          Position to start of record
+* POSITION #Channel(File),Reclen,Recnum,Byte     Position to specified byte of
+*                                                record
+* PREFIX                                         Set to startup prefix
+* PREFIX   Pathname                              Set the prefix
+* String   =PREFIX                               Get current prefix
+* PRINT                                          Print data
+* PUBLIC   Label                                 Set a public label
+* PUSH                                           See ON statement
+* PUSH     Label                                 Push routine to return to
+*-------------------------------
+* RAM                                            Location of scratch Ram
+* RAM(0)                                         Location of scratch Ram
+* RAM(1)                                         Location of scratch Ram 1
+* RAM(2)                                         Location of scratch Ram 2
+* RAM(3)                                         Location of scratch Ram 3
+* Value    =RANDOM(Value)                        Get a random value
+* READ     #Channel(File),Address,Bytes          Read binary data
+* READY                                          See MODEM statement
+* READY    Filename|Nullstring                   Get a message file ready
+* RECALL   Filename                              Recall program variables
+* RESUME                                         Resume program after error
+* RETURN                                         Return from subroutine
+* REWIND                                         Restart current ,essage
+* String   =RIGHT$(String,Value8)                Get right part of a string
+* String   =RND$                                 Get a random character
+* RTRIM$(String)                                 Trim strings leading spaces
+*-------------------------------
+* SET      String=Address,Length                 Set variable pointer
+* SET MSG  =Value8                               Set top of screen message
+* SETINT(String)                                 Set interrupt character
+* SIZE                                           See EDIT and MSG statements
+* SIZE(Channel(File))                            Get file size
+* STEP                                           See FOR statement
+* STORE    Filename                              Save program variables
+* String   =STR$(Value)                          Make numeric string
+*-------------------------------
+* TERMINAL =Value8                               Set terminal type number
+* Value    =TERMINAL                             Get terminal type number
+* THEN                                           See IF statement
+* String   =TIME$                                Get current time, 24 hour
+* String   =TIME12$                              Get current time, 12 hour
+* TO                                             See FOR and MOVE statements
+* print TONE(Value8,Duration)                    Execute a pure tone
+* print TONE(Value8,Value8,Duration)             Execute a dual tone
+* TONE(Value8,Duration)                          Execute a pure tone
+* TONE(Value8,Value8,Duration)                   Execute a dual tone
+* TYPE     Filename                              Type text, SRC or AW file
+*                                                to the console
+* TYPE     Filename,#Channel(File)               Type text, SRC or AW file
+*                                                to the specified channel
+*-------------------------------
+* UNLOCK                                         See DISK statement
+* UNLOCK   Filename                              Unlock a file
+* UPPER$(String)                                 Convert string to upper case
+*-------------------------------
+* Value    =VAL(String)                          Get value of a string
+*-------------------------------
+* WHEN$    =Address                              Set date storage address
+* WHEN$    =String                               Store a date
+* String   =WHEN$                                Get stored date
+* WHILE    (expression) statements               WHILE loop                  
+* WHILE    (expression) { statements }           WHILE loop
+* WIDTH    =Value8                               Set editor width
+* Value    =WIDTH                                Get editor width
+* Value    =WIDTH(Value2)                        Get fixed widths
+* WINDOW   =Value8                               Set window top
+* WINDOW   =Value8,Value8                        Set window top and bottom
+* WINDOW   =Value8,Value8,Value8                 Set window top, bottom and left
+* WINDOW   =Value8,Value8,Value8,Value8          Set all window limits
+*           First  Value =Screen Top
+*           Second Value =Screen Bottom
+*           Third  Value =Screen Left
+*           Fourth Value =Screen Right
+* WORD     =Address                              Set word address
+* Value    =WORD                                 Get word address
+* WORD(Value8)                 =(Value16)        Set a word
+* Value    =WORD(Value8)                         Get a word
+* WRITE    #Channel(File),Address,Bytes          Write binary data
+*----------------------------------------------------------------------------
+*     Value 1  =        0 through       1
+*     Value 2  =        0 through       3
+*     File     =        1 through       3
+*     Value 4  =        0 through      15
+*     Byte     =        0 through     255
+*     Bytes    =        0 through     255
+*     Length   =        0 through     255
+*     Lines    =        0 through     255
+*     Reclen   =        0 through     255
+*     Value 8  =        0 through     255
+*     Address  =        0 through   65535
+*     Recnum   =        0 through   65535
+*     Subtype  =        0 through   65535
+*     Value 16 =        0 through   65535
+*     Value    = -8388608 through 8388607
+*----------------------------------------------------------------------------

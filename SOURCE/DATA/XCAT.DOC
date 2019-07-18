@@ -1,0 +1,159 @@
+XCAT uses and other amazing features
+Written by Andy Nicholas                                        April 12, 1991
+Modified by Andy Wells                                       December 31, 1992
+
+THIS NOTE COVERS ONLY THE LLUCE VERSION OF XCAT.  SEE SUPERTAC.TECH.6 FOR ACOS
+------------------------------------------------------------------------------
+Changes since April 1991:
+
+A new version of XCAT has been written for LLUCE.
+
+New features include:
+---------------------
+Support for all current file type codes.
+Support for lower case characters in filenames.
+
+Changes:
+--------
+XCAT is now an overlay.  It should only be called using the OVERLAY command.
+The file type list can be easily altered using a block editor when new
+filetypes are assigned.
+The parameter list has been moved to 768 ($300).
+Mixed case filenames are fully supported.  The case flags are also in the
+parameter list.
+
+------------------------------------------------------------------------------
+
+When SuperTac 5.0 was introduced, a rather remarkable [for acos anyway]
+external file was shipped with it.  The file is called "XCAT" and allows
+a number of parameters to be found out about each file in a catalog.  It even
+allows someone to request that a certain file number be returned along with
+it's stats.
+
+the format of the call is:
+
+overlay "xcat",<special>,vl$,fn$,ta$,th$,md$,mt$,xd$,xt$,by$
+
+where
+
+vl$ = acos pathname of volume to be cataloged [only needed first time]
+fn$ = filename [15 characters]
+ta$ = filetype in ascii [3 characters]
+th$ = filetype in hex   [3 characters]
+md$ = modification date of file [form = 00-mon-00, 9 chars]
+mt$ = modification time, 24 hour format [5 chars]
+xd$ = creation date of file [form = 00-mon-00, 9 chars]
+xt$ = creation time, 24 hour format [5 chars]
+by$ = bytes used [9 chars]
+
+The strings must be setup beforehand so that the numbers need to only be
+passed back to the routine.  They must be re-initialized back this way every
+time xcat is "used." for example --
+
+makestr
+ fn$="               ":ta$="   ":th$="   ":bu$="     "
+ md$="         ":mt$="     "
+ xd$="         ":xt$="     "
+ by$="         ":a=0
+ return
+
+If you are planning on "building" a catalog, then you have to instruct xcat
+to return each catalog entry sequentially.  You do this by filling the
+<special> position with a zero (0) every time you want to get a catalog entry
+from the directory.  Keep in mind that the first time xcat is used in this
+mode VL$ must be supplied, but every time thereafter, VL$ should be omitted
+to save time [after all, VL$ is only used once to set the prefix and get
+the filename to operate on -- if there were 30 files, this routine would
+be called 30 times, and much time wasted for nothing]
+
+In addition to all of the strings that are returned each time the routine is
+called, a parameter list at 768 is also returned.  The values returned for each
+directory entry is as follows:
+
+Location     # of Bytes     What it is
+--------     ----------     --------------------------------------------------
+768+0            1          Length of previous filename
+768+1            1          access bits (locked, unlocked, etc - normally $E3)
+768+2            1          filetype (0-255)
+768+3            2          aux filetype ($0-$FFFF)
+768+5            1          storage type (seedling, sapling, tree, or sparse)
+768+6            2          number of prodos blocks ($0-$FFFF)
+768+8            2          date of last modification in prodos format
+768+10           2          time of last modification
+768+12           2          date of creation
+768+14           2          time of creation
+768+16           2          Xmodem Blocks
+768+18           3          # of bytes
+768+20           2          Filename case flags
+
+Remember to avoid leaving the catalog routine before a filename with 15 spaces
+is returned [signaling the end of the directory, and that xcat has closed the
+file].  If you suddenly decide to go elsewhere in the code before the catalog
+routine is done [and the file closed by prodos] you guarantee certain doom for
+your segment.
+
+Most external files do a general 'close' from prodos when they are done.
+This closes all levels of files that may be active.
+
+This includes board message files.  Xcat will <NOT> close all the files, only
+the directory is was operating on.  Thus, you can have either a text file or
+a board message file open while xcat is doing it's thing... for instance
+
+dir
+ print "Directory"
+dir1
+ print \"Volume "vo$\
+ kill "dir":create "dir"
+ ready "vol.headers"
+ input #msg(lg),a$
+ copy #6
+ open #2,"dir"
+ print \"  ##  Filename        Typ   Blks   Xmdm";
+ if cc=2 print"      Length   Uploaded   Packer/Type";
+ print \chr$(45,41);
+ if cc=2 print chr$(45,38):else print
+ gosub makestr
+{ First entry to xcat }
+ overlay "xcat",0,vl$,fn$,ta$,th$,bu$,md$,mt$,xd$,xt$,by$
+dloop
+ if fn$="               " goto endloop
+ a=a+1
+ if (left$(fn$,2)="S.") and (not exec) goto dloop2
+ si=peek(768+16)+peek(768+17)*256
+ print #2,"| "right$("00"+str$(a),2)"  "fn$" "ta$;
+ print #2," "bu$" | "right$("    "+str$(si),5)" |";
+ if cc<>2 print #2:goto dloop2
+ print #2," "by$" | "xd$" | ";
+ if ta$="REL" print #2,"DDD/Daltons |":goto dloop2
+ if th$="$F5" print #2,"ProPacker   |":goto dloop2
+ if ta$="SYS" print #2,"System File |":goto dloop2
+ if th$="$B0" print #2,"APW Source  |":goto dloop2
+ if ta$="AWP" print #2,"AppleWorks  |":goto dloop2
+ b=peek(768):if right$(left$(fn$,b),4)=".BNY" print #2,"Binary II   |":goto dloop2
+ if right$(left$(fn$,b),4)=".BQY" print #2,"Bin II/Sqz  |":goto dloop2
+ print #2,"            |"
+dloop2
+{ not the first entry }
+ overlay "xcat",0,fn$,ta$,th$,bu$,md$,mt$,xd$,xt$,by$:goto dloop
+endloop
+ close:gosub add:copy "dir"
+ print chr$(45,41);
+ if cc=2 print chr$(45,38):else print
+ setint(""):return
+
+This (^^^^^) routine uses channel #2 [and file buffer #2] to write the
+contents of the directory to a file.
+
+The alternate mode of xcat is used to retrieve information about a certain
+file number in a directory.  You have to pass the number in the <special> byte
+of the parameter list like so:
+
+ b = filenumber
+ gosub makestr
+ overlay "xcat",b,vl$,fn$,ta$,th$,md$,mt$,xd$,xt$,by$
+
+This part of xcat closes the directory when done.  If a 15 space string is
+returned in fn$, then the file entry does not exist.
+When getting info about a specific file, the directory name MUST be provided.
+
+------------------------------------------------------------------------------

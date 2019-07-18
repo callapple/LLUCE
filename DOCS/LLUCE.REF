@@ -1,0 +1,1801 @@
+
+                           LLUCE Reference Manual
+
+
+
+                        First Edition (January 1993)
+
+                       Copyright 1993 L&L Productions
+
+
+
+
+                             GENERAL INFORMATION
+
+Welcome to the world of LLUCE.  The following document was written to introduce you to LLUCE and to help you learn to write your own programs or modify others written in LLUCE.
+
+LLUCE is a full-featured language just like BASIC, PASCAL, FORTRAN, or any other language.  It resembles BASIC more than any other language due to the fact that almost everyone involved with computers is familiar with BASIC.  Since the goal was to make LLUCE as easy to use as possible, it was modeled after BASIC.
+
+This package contains a proprietary LLUCE compiler which you will be using.  Unlike many interpreted BASICs which have their editor built in, LLUCE requires the use of some form of text editor for you to manipulate your source files.  All LLUCE source files are stored as text, so any editor that can modify standard text files can be used.
+
+
+                              WRITING A PROGRAM
+
+The first thing you need to do is start your text editor/word processor you plan on using to write your code.  Once you are ready, enter the following program:
+
+     LOOP
+      PRINT "THIS IS A LLUCE PROGRAM"
+      PRINT "I HOPE IT WORKS!"
+      GOTO LOOP
+
+The important points to note are these: LLUCE is not based around line numbers as is the BASIC language.  It is free-form like PASCAL or Assembly Language.  It uses labels as markers for groups of code instead of line numbers that marks the beginning of a line of code when the requirement arises to identify specific point within the program.  Since your labels can have descriptive names to begin a section of code, it makes it easier to see what this code does.  Also, you can add extra blank lines at the top and bottom of a group of code to identify it more clearly.  If you add comments within your code, it helps you remember what you were trying to do in that section.
+
+There are a few rules that must be followed in order for LLUCE to process your code.  LABELS must ALWAYS begin at column 0 at the left side of the screen.  The rest of the code always begins in column one.  The only exception to this is the use of quotes (') to identify text.  When you open a quote at the start of a print statement, all following text will be printed to the screen until another quote in encountered.  This includes normal text, any control characters and blanks lines.
+
+Once your have typed in this test program, save it to your disk under the name "TEST.S".  You must ALWAYS add an ".S" to the end of any source file for LLUCE so that LLUCE knows it is a "source" file.  Then exit from your editor back into your program selector.
+
+LLUCE follows Apple standards for system files, so program selectors such as ProSel and ECP can insert start-up filenames for LLUCE to use.
+
+With ECP, execute the LLUCE system with the command:  LLUCE.SYSTEM TEST
+
+The screen will clear and you will get a "One moment, compiling segment." message.  This means that the compiler is in the first pass of its two pass compile.  After a short wait, an extra two dots '..' will appear.  This indicates that the compiler is in its second pass.  This generally is very fast.  Once the second phase is complete and has created a new file, (which in this case is called "TEST.C") The message will be cleared and the program executed.
+
+The following will be displayed:
+
+     THIS IS A LLUCE PROGRAM
+     I HOPE IT WORKS!
+     THIS IS A LLUCE PROGRAM
+     I HOPE IT WORKS!
+     THIS IS A LLUCE PROGRAM
+     I HOPE IT WORKS!
+     etc...
+
+The two lines will be repeated over and over until you stop the program via the RESET key or Open Apple-L.  Let's see how this program works.
+
+The first thing that happens is that the LLUCE interpreter looks at the first line of code for a label that begins at the very leftmost column of the screen.  This tells LLUCE that the first line is actually a LABEL.  A LABEL is a reference point in a program to a section of code.  A LABEL has no effect when the program flow passes through it, but it directs the operation from the line executing from one section of code to the beginning of the section where the LABEL is.
+
+Execution then passes to the next line as the first has no actual effect.  LLUCE looks and sees that the second line does NOT start at the leftmost column but starts at column 1.  This tells LLUCE that the data on the line is the actual program code.  LLUCE then looks at the first word (which in this case was PRINT).  LLUCE then goes into its internal PRINT routine as you asked.
+
+Once within the PRINT routine, special rules take over that govern the PRINT statement.  Summing up, PRINT will display to the console whatever text or data is between the " " marks.  In this case, it printed "THIS IS A LLUCE PROGRAM".  This data was placed within quotes to show that it was text.  Once the end of the line was encountered, execution passed to the next line.
+
+The next line was another PRINT statement which was displayed: "I HOPE THIS WORKS!".  This is the same text that you typed in when you wrote the short program.  It works in the same way as the first PRINT statement.  This is the simplest form of the PRINT statement.  Its function is by no means limited to this basic form since there are many other variations that can be used.
+
+The last line of the program contained another statement to be executed by virtue that it was indented 1 space.  This time, the STATEMENT or COMMAND was GOTO.  This statement does what is called FLOW CONTROL.  This is the process by which the point of execution of the program is changed from the last line executed to a new line.
+
+When the GOTO routine is executed, it searches for the name of the LABEL and when it finds the LABEL it executes the next line of code.  In this case, the label was LOOP.  LLUCE then looks through the program to find a label called LOOP.  As it happens, that label is on the first line of the program, though it could have been in any line.  The program execution point is then moved to the label LOOP which happens to be at the beginning of the program.  Thus, the text is printed again and again.  This situation is called an INFINITE LOOP.  That is, the loop will never stop (unless you stop it via RESET or some such means).
+
+After you hit [RESET], you will be faced with a group of choices labeled "***RESTART: S,M,Q ?".  By pressing "S" you will restart the original startup program you told LLUCE to execute.  By pressing "M" you will restart the program in memory.  In this case, they are the same, but programs can chain to other programs so that the original one is different from the program now in memory.  This is helpful for debugging so you can re-start that program in memory without starting with the original program first.  By pressing "Q", you will quit LLUCE and return to ProDOS via the quit code.
+
+At this point, you have successfully written, compiled, and executed an LLUCE program.  Though this was a simple example, the steps are the same for advanced programs.  The following is a summary of the steps involved in writing an LLUCE program:
+
+1) Enter some form of word or text processor that can accommodate standard
+   text files.
+
+2) Type in your LLUCE program.  All labels start at column 0 while all actual
+   code starts at column 1.
+
+3) Save the program to disk adding a ".S" suffix onto your filename (ex:
+   TEST.S) so that LLUCE can identify it as an LLUCE source file.
+
+4) Execute LLUCE from ProDOS via whatever commands are needed.
+
+5) The compiler will then compile and execute your program.  If you execute
+   the program again without changing the source code, the compiler will NOT
+   re-compile, it will just run the old compiled code.
+
+The following section contains information on all the data formats, variable types, and disk access methods that can be used with LLUCE.  A working knowledge of BASIC is recommended to help you along.  If you don't know any other language, try and use the examples as much as possible.  They will be the best teacher.  Also, try modifying existing code.  This is another easy way to learn.
+
+                             PROGRAM STRUCTURE
+
+Under LLUCE, the structure of a program is very "free-form".  That is, the compiler is very tolerant of different styles of programming.  You are allowed to add blank lines and comments anywhere in your code for ease of reading.  Any line within an LLUCE source program must be in one of the following formats:
+
+Blank Line: If the line is blank, this line will be skipped by the compiler.  Blank lines are a good way to separate blocks of your code apart from other blocks for ease of reading.
+
+Comment Line: By placing a semi-colon (;) as the first character of the line in column 0, all data until the end of the line will be ignored.  In this way, you can enter comments so that when you come back to work on a program, you will have some idea of what you were trying to accomplish.
+
+Block Comment: By placing an open brace ({) anywhere in a non block text line, all data until a close brace (}) will be ignored.  This allows comments to be inserted anywhere in your code.
+
+Label Line: By entering just a keyword of your choice starting at column 0 of the line, you can enter a label.  The first character of a label must be alphabetic.  The rest of the label can consist of alphanumeric characters.  The first 8 characters of the label are significant.  That is, the labels TEST and TEST2 are considered different labels by LLUCE while SHOWFILE2 and SHOWFILE8 would appear the same to LLUCE since the first 8 characters are the same.
+
+Statement Line: A statement line is always indented 1 space from the left side.  That is, it starts at column 1, not column 0 like the previous line types.  Statements are just entered on the line in the order you want them executed.  If you wish to put multiple statements on a line, separate the statements with a colon (:).  Statements may be typed in either upper, lower or mixed case.
+
+
+                            SPECIAL CHARACTERS
+
+There are several special characters that LLUCE recognizes within your program code and uses them for different purposes.  The following list shows characters that have special meanings to LLUCE.  Any character, including those below, can be displayed by the program without problem, they just have special meanings when encountered outside the PRINT statement.
+
+Character Meaning
+
+          space or blank
+     =    equal sign used for assignment statements
+     +    plus sign used for adding strings and variables
+     -    minus sign used for subtraction
+     *    asterisk multiply sign used for multiplication
+     /    slash used for division
+     (    open parenthesis used to begin a function
+     )    close parenthesis used to end a function
+     $    dollar sign used to indicate a string function
+     ,    comma used as a data separator
+     ;    semi-colon used for text formatting and comments
+     :    colon used as a statement separator
+     "    double quote for string delimiter
+     '    apostrophe delimiter for block text formatting
+     \    back-slash or newline character
+     <    less than - used with IF
+     >    greater than - used with IF
+     {    open brace - start comment character
+     }    close brace - end comment character
+     _    underscore - line continuation character
+
+
+                              RESERVED WORDS
+
+Under LLUCE, certain reserved words have predefined meanings.  These words all correspond to LLUCE statements, functions and operands.  When encountered, they will be executed as an LLUCE command.  They may NOT be used for variable names, but they can be used as labels.
+
+It is always best if you separate reserved words from data, or each other, by use of a space or a colon or whatever special characters the particular command syntax allows.  A key factor in writing a good program is making sure you can understand what you wrote.  For example, PRINT A$;B$,C PEEK(27):HOME uses a (;), a (,), a () space, and a (:) between data.
+
+The following is a list of reserved words:
+
+ABS       ADDINT    AND       ANSI      APPEND    ASC       BAUD      BYTE
+CALL      CHAIN     CHR$      CLEAR     CLOCK     CLOSE     CLS       COPY
+CREATE    CRUNCH    DATE$     DISK      ECHO      EDIT      ELSE      END
+EOF       ERR       EXEC      ERROR     EXIST     EXIT      FILL      FLAG
+FLASH     FLUSH     FMTDATE$  FMTWHEN$  FOR       FREE      GET       GOSUB
+GOTO      GOTOXY    HOME      IF        INPUT     INSTR     INVERSE   KEY
+KILL      LEADIN    LEFT$     LEN       LOCK      LOWER$    LTRIM$    MARK
+MID$      MIXED$    MOD       MODE      MODEM     MOUSE     MOVE      MSG
+NAME      NEXT      NIBBLE    NOCAR     NODE      NORMAL    NOT       NULLS
+OFF       OFFSET    ON        ONLINE    OPEN      OR        OVERLAY   PDL
+PEEK      POKE      POP       POSITION  PREFIX    PRINT     PUBLIC    PUSH
+RAM       RANDOM    READ      READY     RECALL    RESUME    RETURN    REWIND
+RIGHT$    RND$      RTRIM$    SET       SETINT    SIZE      STEP      STORE
+STR$      TERMINAL  THEN      TIME$     TIME12$   TO        TONE      TYPE
+UNLOCK    UPPER$    VAL       WHEN$     WIDTH     WINDOW    WORD      WRITE
+XOR
+
+
+                                 VARIABLES
+
+One of the most powerful parts of any language is the use of VARIABLES.  LLUCE contains two basic variable types.  The common ways of using them are listed below:
+
+Numeric Variables: Under LLUCE, numeric variables are just integers.  Floating point numbers are not supported.  LLUCE is not a good language if your application demands heavy math support.  The integers are in the range -8388608 to +8388607.  Numbers outside this range will either "wrap-around" or give an OVERFLOW ERROR.  Numeric variables are represented as names of your choice.  They must start with an alphabetical character, but can contain any alphanumeric characters that you desire.  For instance, ABC, Z7, AS76D are all legal numeric variables.
+
+String Variables: Under LLUCE, string variables are the same as they are under most BASICs.  They can be between 0 and 255 characters in length.  They can accept any type of characters (control, upper case, lower case, numeric, etc.), and can be manipulated in a number of ways.  String variables must start with an alphabetical character, and can contain any alphanumeric character as can a numeric variable.  However, the variable name must be terminated by a dollar sign.  For example, ZQ$, A7$, FIRSTNAME$ are all legal string variables.
+
+Unlike many BASICs, LLUCE does NOT support arrays.  Due to speed and memory considerations, array support is impractical.  Fortunately, LLUCE has been engineered to handle large groups of data that will out-perform most normal array systems.
+
+Under LLUCE, variable names can be of any length, though only the first four characters are used within LLUCE for identification.  For example, you can use the variable USERNUM throughout your program without a problem.  Internally though, LLUCE only looks at it as USER.  As a result, if you have a second variable named USERLEVEL, internally, it will be the same as USERNUM.  Thus the two variables will be the same as far as LLUCE is concerned.  The ability to use variable names greater than 4 characters is only for your reading convenience.
+
+You can assign a variable a value the same way you do in any BASIC.  You can use: LET USERLEVEL=1 to set the variable USER to a value of 1.  As a shortcut, you can just say USER=1, and LLUCE will figure out what you mean.  The LET is an optional operator.  When assigning a string variable to an absolute value, the string to be assigned must be enclosed in quotes and must be no more than 255 characters in length.  OURNAME$ = "L&L PRODUCTIONS" is a legal string assignment.
+
+
+                           ARITHMETIC OPERATORS
+
+There are several standard arithmetic operators that can be applied to numeric and string variables.  Though they are somewhat limited in nature under LLUCE, most common functions can be accommodated.
+
+Addition: A=B+C or A=B+5 or A=3+7 are all legal operators.  Whenever a number is needed for whatever purpose, an equation may be substituted within its place.  A$=B$+C$ or A$=B$+"HMMM" or A$="THIS IS "+"A TEST" are all legal string addition commands.  Under string addition, the contents of the second string are appended onto the contents of the first.
+
+Subtraction: A=B-C or A=B-5 or A=3-7 are all legal operators.  It is very similar to using the addition operator.  There is no string subtraction operator.
+
+Multiplication: A=B*C or A=B*5 or A=3*7 are all legal operators.  If you combine multiplication/division operands with addition/subtraction operands, the multiplication/division will be executed first.  Ex: 4+5*3 = 19 (not 27).
+
+Division: A=B/C or A=B/5 or A=3/7 are all legal operators.  Since LLUCE is an integer based language, when using division operands the results are rounded to the nearest integer and remainders are thrown away.  Thus, 10/2=5, 10/3=3, 10/7=1, 10/11=0.
+
+Modulo: A=B MOD C or A=B MOD 5 or A=3 MOD 7 are all legal operators.  The MOD operand is a subfunction of division.  Instead of returning the quotient (as with division), the remainder is returned.  Thus, 10 MOD 2=0, 10 MOD 3=1, 10 MOD 7=3.
+
+Grouping: By using the parenthesis, you can create complex equations and control the method of expression evaluation.  Arguments within a set of parenthesis are always executed first.  You may also nest several levels of parentheses if needed.  Thus, ((3+4)*5)/(3+4) is evaluated in the following steps:
+
+     Step 1.  (7*5)/(3+4)
+     Step 2.  35/(3+4)
+     Step 3.  35/7
+     Step 4.  The result is 5.
+
+
+                           RELATIONAL OPERATORS
+
+Relational operators are used to compare two values and return a true/false result.  Strings may be compared with other strings but not to numbers.  The same is true for numbers.  A "TRUE" result is returned as the value 1 while a "FALSE" result is returned as the value 0.  The following are the legal relational operators.
+
+Operator  Relation                 Example
+
+=         Equality                 X=Y
+<>        Inequality               X<>Y
+<         Less Than                X<Y
+>         Greater Than             X>Y
+<=        Less Then or Equal To    X<=Y
+=>        Greater Than or Equal To X=>Y
+
+Examples: (1=0) with the result of false or (0), (1=1) with the result of true or (1), (5<4) with the result of false or (0), (5>4) with the result of true or (1), (7<7) with the result of false or (0), (7=>7) with the result of true or (1).
+
+You may always substitute more complex variables in place of simple variables.  You can replace ((X) > (Y)) with a more complex expression like ((4+5*6)>(3/4+12)) or expressions that are even more complex.  If you do have a complex expression on a side, you should put parenthesis around it to separate it from the relational operator so it is processed as one side.
+
+When used in conjunction with the IF statement, you have one of the most powerful statements within LLUCE.  When used with the IF statement, you have a conditional-branch, the single most important program execution statement.
+
+
+                             LOGICAL OPERATORS
+
+Logical operators perform simple logic operations on numeric values.  They can be used to increase the power of the IF statement by allowing more conditions to be evaluated.  Under their simplest form, logical operators work with true (1) and false (0) values.  The following truth tables show the results of all the possible logical operators in action.
+
+  Z = NOT X    Z = X AND Y    Z = X OR Y
+
+     X    Z    X    Y    Z    X    Y    Z
+    --------  -------------  -------------
+     1    0    1    1    1    1    1    1
+     0    1    1    0    0    1    0    1
+               0    1    0    0    1    1
+               0    0    0    0    0    0
+
+The following examples show the IF statement being used with the relational and logical operators:
+
+     IF (X=5) AND (Y=9) GOTO label
+
+     IF (NAME$="SAM") AND (UN=1) GOTO label
+
+     IF NOT ((A=3) OR (B=4)) GOTO label
+
+Again it is important to use parenthesis when complex equations are being evaluated so that LLUCE can understand the order the operand is processed.  Since execution order is normally sequential, without grouping, LLUCE will be on its own to decide what order you wanted to do things.  Many times it will guess correctly, but occasionally, it will guess wrong.  Using grouping is an easy way to avoid this problem.
+
+
+                             PRINT STATEMENTS
+
+The two most frequently used and versatile statements are PRINT and INPUT.  These are the basic means by which you input data into variables and print the data out to the screen.  Due to the frequency of use, a basic understanding of these two statements is very important.
+
+The PRINT statement has the function of taking data and displaying it on the console/modem.  There are many options in PRINT that can be used.  The basic form of print is PRINT [expression].  In the simplest form you can use PRINT [any absolute data].  This would include numbers (PRINT 563) or text within quotes (PRINT "HELLO").  To include multiple arguments, you need not even separate them, though a space or semi-colon between them makes it easier to read.  PRINT "THE VALUE 4+5=";9.
+
+Of course, in place of absolute data, you can have statements, equations, and variables.  For example the above print statement could be redone as: PRINT "THE VALUE 4+5=";4+5.  If you wish to print a function, enclose the function within the print statement.  For example, PRINT PEEK(456) would display the contents of memory location 456.
+
+To print a variable just include the name of the variable in the PRINT statement.  PRINT NAME$ would print the contents of NAME$ on the screen.  To combine multiple statements, just use the semicolon or a space.  PRINT NAME$;UN;PEEK(456);4+5 would display all the above data.
+
+There are several special characters that can be used with the PRINT statement to format the data.  If you use a comma instead of a semicolon, the comma will be displayed.  There is also a print-at character (@) that can be used.  PRINT @5,0;"HELLO" will display the word HELLO at horizontal location line 5, vertical location column 0.
+
+Certain reserved words can also be used in PRINT statements.  These are used for screen control for those who have terminal programs that accept screen control characters.  The following reserved words are available for use in PRINT statements.
+
+CLS       GOTOXY    HOME      INVERSE   MOUSE     NORMAL    TONE
+
+
+                             INPUT STATEMENTS
+
+The INPUT statement is used to enter data in variables from the console/modem by the user.  It also has a quick directive so the text can be displayed (like a PRINT statement) before the data is entered.
+
+In its simplest form, INPUT is used to enter either a string or numeric variable from the console/modem.  INPUT NAME$ would wait for the user to enter a string from the keyboard.  That string would then be put into NAME$.
+
+To enter multiple variables separate the variable names with either the comma or the back-slash character.  When you separate variables with a comma, the input must correspond to the number of commas used in the input.  For example, INPUT A,B,C would wait for three numbers to be entered.  Typing 1,2,3 would enter 1 for A, 2 for B, and 3 for C.
+
+If you enter a back-slash between variables, then each value must be on a separate line.  This avoids having to do multiple INPUT statements all in a row.  Thus, INPUT A$\B$, would enter two lines worth of data into the two strings.
+
+To display a prompt (like a PRINT statement) in advance of the input, you can put any text within quotes.  For example, INPUT "NAME ->";NAME$ would display the prompt NAME -> and would then wait for your input.  Of course, you can also use multiple variables with the prompt as above.
+
+
+                                 DISK ACCESS
+
+Under LLUCE, accessing files is by standard ProDOS pathname syntax.
+
+To change volumes within LLUCE, you can use the PREFIX command.
+
+
+                                 DISK FILES
+
+The last part of this introduction deals with using disk files.  This is one of the most important and powerful features of LLUCE.  You can OPEN a file, manipulate the data within, and then CLOSE the file.  If you wish to use a new file, the CREATE statement can be used.  If you wish to remove an old file, the DELETE statement can be used.  The following is a list of disk commands:
+
+APPEND    CLOSE     COPY      CREATE    FLUSH     INPUT     KILL
+MARK      OPEN      POSITION  PREFIX    PRINT     READ      WRITE
+
+The first thing to do is open the file.  You use the "OPEN #channel,filename" statement.  There are 3 disk channels that may be used.  The three channels are 1, 2 and 3.  Only one file per disk channel may be open at a time.  Thus, there is a maximum of three files open at any one time.  The filename format differs from operating system to operating system.  Ex: OPEN #1,"USERS" would open the file USERS on disk channel 1.
+
+Once you have opened a disk file, all further access is done with reference to the disk channel of the file you opened.  At this point, the following commands can be used to access the file.
+
+APPEND #channel - This will set the file so that all new data written to the file will be appended onto the end of the file.
+
+INPUT #channel, expression - This is just like the normal INPUT statement except that input will be taken from the open disk file instead of the console/modem.
+
+MARK (channel) = current byte location within file - With the MARK statement, you can select the actual byte number from the beginning of the file.  This is generally not used.
+
+current location within file = MARK (channel) - In this form, the MARK function will return the current pointer location within a disk file.
+
+POSITION #channel,record size, record number, offset - The POSITION statement is used in conjunction with random access files.  If you wanted to use a file as random access with records of 128 bytes, you can use: POSITION #1,128,record number.  The offset argument is optional and defaults to zero if not used.
+
+PRINT #channel, expression - The PRINT statement can be used in the normal way except that the output will be directed to the disk file instead of the console/modem.
+
+READ #channel, memory location, number of bytes to read - This is a direct disk to memory transfer method.  A maximum of 255 bytes can be read at a time.
+
+WRITE #channel, memory location, number of bytes to write - This is a direct memory to disk transfer method.  A maximum of 255 bytes can be written at a time.
+
+After you are finished with the file you are using, you must issue a CLOSE command to tell LLUCE you are finished with the file.  If you add a device number (#1) after the CLOSE statement, only that channel will be closed.  If you just issue a CLOSE without an argument, all open files will be closed.  If you are only using one file at a time, it is generally a good practice to issue just a CLOSE command with no channel number.
+
+FLUSH does the same thing as CLOSE without releasing the file.  This command is used mainly to make sure all data written to a file actually gets written to the disk.
+
+
+                     LLUCE COMPILER RELEASE 1.0 SPECS
+
+Hardware Required:       Apple II series
+Memory Required:         128k
+Operating System:        ProDOS
+Hardware Supported:      PRINTER, MODEM, CLOCK
+
+Total Program Space:     20k
+Total Variable Space:    20k - program space
+Internal Editor Space:   4k
+
+Disk Channels:           3 (+1 for message base use)
+
+Ram Drive:               256 bytes
+
+Scratch Ram:             4, 256 byte pages
+
+
+                               ERROR NUMBERS
+
+1.   *    syntax
+2.        end of program
+3.   *    missing symbol
+4.   *    missing data
+5.   *    type mismatch
+6.   *    string overflow
+7.   *    numeric overflow
+8.   *    division by zero
+9.   *    bad device number
+10.  *    illegal filename
+11.       link label not found
+12.  *    message file not found
+13.  *    unable to load overlay
+14.  *    prefix not found
+15.       module not found
+16.  *    disk write
+17.       label not found
+18.       symbol table full
+19.       undefined label
+20.       unclosed quote at EOF
+21.  *    GOSUB stack full
+22.  *    RETURN without GOSUB
+23.  *    FOR stack full
+24.  *    NEXT without FOR
+25.       RESUME without error
+26.       Incompatible Compiler Version
+27        SYSOP call termination
+>27. *    user defined
+
+*    This error can be trapped by ON ERROR GOTO, all others are fatal errors
+
+
+                              ERROR MESSAGES
+
+1.   SYNTAX ERROR:
+
+     Missing parenthesis in a line, misspelling of a keyword, misuse of punctuation, etc.
+
+2.   END OF PROGRAM:
+
+     An END statement has been encountered, or LLUCE has reached the end of a program.
+
+3.   MISSING SYMBOL:
+
+     There was no label following a GOTO, GOSUB, or a PUSH.
+
+4.   MISSING DATA:
+
+     Occurs when a program statement has no valid argument.  For example, X=clock() is missing data because there is no valid number between the parenthesis.
+
+5.   TYPE MISMATCH:
+
+     A string variable was used when a numeric variable was required.  A numeric variable was used when a string variable was required.  A string variable was compared to a numeric variable.
+
+6.   STRING OVERFLOW:
+
+     An attempt was made to create a string larger then 255 characters.
+
+7.   NUMERIC OVERFLOW:
+
+     LLUCE cannot handle numbers < -8388608 or > 8388607
+
+8.   DIVISION BY ZERO:
+
+     Dividing by zero is always an error.
+
+9.   BAD DEVICE NUMBER:
+
+     A device was accessed that was not OPEN or READY; or the device does not exist.
+
+10.  ILLEGAL FILENAME:
+
+     The syntax of the filename is illegal or an attempt is made to use a disk channel that is already OPEN.
+
+11.  LINK LABEL NOT FOUND:
+
+     An attempt to LINK into a segment at a label that is either not public or does not exist.
+
+12.  MESSAGE FILE NOT FOUND:
+
+     The message file that was accessed with the READY statement does not exist.
+
+13.  UNABLE TO LOAD OVERLAY:
+
+     LLUCE was unable to find an external module.
+
+14.  PREFIX NOT FOUND:
+
+     An attempt was made to access a drive or pathname that does not exist.
+
+15.  MODULE NOT FOUND:
+
+     LLUCE was unable to locate the starting program module.  By default, this file is named "PROGRAM/LOGON.SEG", but may be changed via the LLUCE loader program
+
+16.  DISK WRITE ERROR:
+
+     An error occurred while writing to disk.  Possibly the disk is full
+
+17.  LABEL NOT FOUND:
+
+     The LLUCE compiler could not find a label that was referenced in the program.
+
+18.  SYMBOL TABLE FULL:
+
+     There are too many labels in the symbol table.  LLUCE will only allow a maximum of 255 labels per segment.
+
+19.  UNDEFINED LABEL:
+
+     This occurs when a segment is being executed and reference is made to a label that cannot be found.
+
+20.  UNCLOSED QUOTE AT EOF:
+
+     At the end of compiling the program, a quote (') was still open.  This indicates that some string statement was started, but not finished.
+
+21.  GOSUB STACK FULL:
+
+     LLUCE will not allow you to nest more then 16 GOSUB statements.
+
+22.  RETURN WITHOUT GOSUB:
+
+     A RETURN or POP statement was encountered without a corresponding GOSUB or PUSH being executed.
+
+23:  FOR STACK FULL:
+
+     LLUCE will not allow you to nest more then 16 FOR statements.
+
+24:  NEXT WITHOUT FOR:
+
+     A NEXT statement was encountered without a corresponding FOR statement being executed.
+
+25:  RESUME WITHOUT ERROR:
+
+     A RESUME command was encountered when no error had occurred.
+
+26:  INCOMPATIBLE COMPILER VERSION
+
+     This error will only be generated if the compiler doesn't match the version of LLUCE currently running.
+
+27:  SYSOP CALL TERMINATION
+
+     This message will be generated if an Open-Apple-L is pressed when there is no ON NOCAR routine specified.
+
+>27: USER DEFINED ERROR:
+
+     Any error number greater than 25 has been defined by the user.  These numbers should never be seen in normal operation, but might be returned by an overlay.
+
+
+
+                             LLUCE COMMAND LIST
+
+
+1.1       ABS
+
+Syntax:   nvar=ABS(number)
+
+Example:  x=ABS(x)
+
+     The ABS command returns the absolute value of a number.  Essentially, it strips off any - sign.
+
+
+1.2       ADDINT
+
+Syntax:   ADDINT (string1 [,string1...])
+
+Example:  ADDINT ("A","B","C")
+
+     The ADDINT command will add more keys to the existing interrupt keys table.  Previous keys will not be cleared.  The function of the keys is the same as with the SETINT command.
+
+
+1.3       AND
+
+Syntax:   nvar=nexprs AND nexprs
+
+Example:  z=x AND y
+
+     This function returns the binary AND of two numbers.  Each bit of the first number is checked with the corresponding bit of the second number, and if either bit is zero, then the corresponding bit in the result is set to 0.  If both are 1, then the bit in the result is set to 1.
+
+
+1.4       ANSI
+
+Syntax:   ANSI ON|OFF
+
+Example:  ANSI ON
+
+     The ANSI statement controls which set of terminal emulation sequences are sent to the remote user with the emulation controls.
+     See  HOME, CLS, NORMAL, INVERSE, MOUSE and GOTOXY commands
+
+1.5       APPEND
+
+Syntax:   APPEND #device
+
+Example:  APPEND #1
+
+     The APPEND statement is generally used to add data to an existing file.  If you issue an APPEND statement, the file pointer will be moved to the end of the file.  All extra data will then be tacked on to the end.  You can also find out the length of a file by doing an APPEND and then using the MARK function.  MARK will then return the length of the file in bytes.
+
+
+1.6       ASC
+
+Syntax:   expression=ASC(string1)
+
+Example:  get a$:print "Input was: "ASC(a$)
+
+     The ASC function is used to determine the number of the code representing the character under the ASCII definition table.  An ASCII table can be found in this manual under Appendix A.
+
+
+1.7       BAUD
+
+Syntax:   nvar=BAUD
+
+Example:  bd=BAUD*300
+
+     The BAUD function returns the callers baud rate divided by 300.  To get the actual baud rate, multiply the returned number by 300.
+
+
+1.8       BYTE
+
+Syntax:   BYTE=expression
+          nvar=BYTE
+          nvar=BYTE(number)
+          BYTE(number)=number256
+
+Example:  p=BYTE; BYTE=ram2; BYTE(4)=12
+
+     The BYTE function is a low overhead data storage unit.  Just point to where in memory you want the data to be stored using the first syntax, and you can then access the data using the third and fourth syntax's.
+
+
+1.9       CALL
+
+Syntax:   CALL memloc
+
+Example:  CALL 768
+
+     The CALL statement is used to jump to a machine language routine residing in memory.  The argument is the starting address of the routine in decimal format.
+
+
+1.10      CHAIN
+
+Syntax:   CHAIN filename [,string-label]
+
+Example:  CHAIN "program/main.seg","main"
+
+     The CHAIN statement is one of the most  powerful statements in the LLUCE language.  This statement will allow two program segments to be linked together.  It is in this way that the problem of not enough memory space is dealt with.  When you design your programs, make them so that you can link the main segments together and the memory savings will be great.
+
+     The filename argument is mandatory and is in standard filename syntax.  If you wish execution to begin at a point other than the beginning of the module, then add on a comma followed by the name of the label IN STRING FORM.  The label must be enclosed in quotes or must be in a string.  Ex: CHAIN "PROGRAM/MSG.SEG","BULLETINS".  You must also make use the PUBLIC command within the segment you are linking to so that the label's address is available to the link command.
+
+
+1.11      CHR$
+
+Syntax:   string=CHR$(ascii code [,# chars])
+
+Example:  md$=CHR$(36,39)
+
+     The CHR$ statement is useful for generating characters that are not easily generated from the keyboard such as control characters.  The ASCII code is a number in the range 0-127 that represents the desired character in the ASCII character chart.  If you wish to generate a group of the same character, add a second argument with the number of characters that you wish to be generated.
+
+
+1.12      CLEAR
+
+Syntax:   CLEAR
+          CLEAR #device
+          CLEAR GOSUB
+
+Example:  CLEAR; CLEAR #9
+
+     The forms of clear share only one thing in common; They clear data in one form or another.  In the first syntax, without an argument, CLEAR will reset all the variables to nil, clear all the addresses from the for-next and gosub-return stack, and close all open files.  It is a good idea to issue a clear statement at the beginning of your program.
+
+     In its second syntax, CLEAR is used to clear out device buffers.  The legal device channels are 9,10.  CLEAR #9 will clear the editor so that any output into the editor will be appended to a clear editor.  CLEAR #10 will clear the ram drive.  Any further writes will be appended on to the end.
+
+     In the third syntax, the GOSUB stack is the only thing cleared.
+
+
+1.13      CLOCK
+
+Syntax:   CLOCK CLEAR
+          CLOCK ONLINE
+          CLOCK=nexpr
+          nvar=CLOCK
+
+Example:  a=CLOCK ONLINE; CLOCK=nibble(1)*600
+
+     The CLOCK function/statement is used for setting a time limit.  It can also be used to find out how long someone has been using the system.  The following options are available.
+
+     CLOCK CLEAR    This statement is used to reset the clock time to zero.
+                    It should be executed when your program begins.
+
+     CLOCK ONLINE   The CLOCK ONLINE function will return the number of
+                    seconds that a user has been connected.  Divide this
+                    number by 60 to find how many minutes they have been
+                    connected.
+
+     CLOCK          You need to set CLOCK equal to the number of minutes you
+                    want as a time limit, or 0 for no limit.  When the time
+                    limit expires, it will be handled as a "No Carrier"
+                    situation.  The program will jump to the NOCAR routine.
+
+
+1.14      CLOSE
+
+Syntax:   CLOSE
+          CLOSE #device
+
+Example:  CLOSE; CLOSE #1
+
+     The CLOSE command is used to close a disk file after you are done with it.  If you give a device channel with the close command, only that file will be closed.  If you use CLOSE by itself, all open files will be closed.
+
+
+1.15      CLS
+
+Syntax:   CLS
+          PRINT CLS
+          nvar=CLS
+          CLS=nexprs
+
+Examples: CLS;  print CLS"Hello..";
+          x=CLS;  CLS=12
+
+     The first two syntax's are used to clear the screen.  The second two are used to set or read the value of the character sent to the remote user when the screen is to be cleared.  The CLS command sends the ANSI clear screen sequence to the user if ANSI is ON.
+
+
+1.16      COPY
+
+Syntax:   COPY [(lines)] filename [,#device]
+          COPY [(lines)] #device [,#device]
+
+Example:  COPY "system/help.system"
+          COPY(50) #1,#7
+
+     The COPY command is used for displaying and copying information from device to device.  The first argument is optional.  It is the number of lines of text to be copied.  If you wish to show only a certain number of lines,  you can include the number to be shown.  The second argument can be a filename, in which case, the file is opened and input is taken from that file, or it can be a device.  The second device is optional.  If present, all output will be routed there, otherwise it will be displayed to the modem/console.  The second argument may not be another filename.  If you wish to copy to a file, open the file with the OPEN command, and copy to that device.
+
+
+1.17      CREATE
+
+Syntax:   CREATE filename[,type]
+          CREATE filename,msg,size
+
+Example:  CREATE "program/testfile"
+          CREATE "newdir",13
+          CREATE "msgfile",msg,128
+
+     The CREATE statement is used to create an empty file on disk.  The new file can then be opened, read, and written to just as any other file would be.  This is the only way to create a file under LLUCE.  Unlike some other BASICs, LLUCE will NOT create a file using the OPEN command.
+
+     The default file type will be TXT.  You can create other file types by specifying the optional type number.  A type of 13 will create a directory file.
+
+     You can create a message file using the second syntax.  The first parameter is the MSG command.  The second is the number of messages you wish the file to hold.  This number will always get rounded up to the next multiple of 128.  This not only creates the file, but also writes out it's bitmap and directory.
+
+
+1.18      CRUNCH
+
+Syntax:   CRUNCH
+
+Example:  CRUNCH
+
+     The CRUNCH statement is used in conjunction  with the MSG commands.  It is used to "CRUNCH" together a message file in while messages have been killed.  This allows you to maintain a sequential message file and get rid of all blank deleted entries that might be there.
+
+
+1.19      DATE$
+
+Syntax:   string=DATE$
+          DATE$=string
+
+Example:  l$=DATE$; DATE$="04/19/87"
+
+     The DATE$ function returns the current date in MM/DD/YY format.  The input will be taken from whatever device is was configured as a clock.  If 00/00/00 is returned, then there is no clock in the system and the date has not been set.  If DATE$ is set to a string in the MM/DD/YY format, and there is no clock in the system, then that string will be used for the date since no other is known.
+
+
+1.20      DISK
+
+Syntax:   DISK LOCK
+          DISK UNLOCK
+
+     This command is used to restrict or allow access to any network that might be in use through a network interface.
+
+
+1.21      ECHO
+
+Syntax:   ECHO=string1
+          ECHO=""
+
+Example:  ECHO="X"; ECHO=""
+
+     The ECHO statement is used to set the echo character to be used with the INPUT statement.  Once the echo has been set, that character will be sent each time a user types a character when entering text.  The ECHO statement in the second syntax will reset the echo to the character that is being typed.
+
+
+1.22      EDIT
+
+Syntax:   EDIT
+          EDIT CLEAR
+          EDIT OFF
+          EDIT ON
+          EDIT="Filename"
+          nvar=EDIT
+          nvar=EDIT ERROR
+          nvar=EDIT SIZE
+
+Example:  EDIT CLEAR; if not EDIT SIZE return
+
+     The EDIT statement is the command used to interface LLUCE with its editor.  With the different EDIT statements, you can clear the editor, see how much space is free, etc.  The following list below gives all the legal calls to the editor.
+
+     EDIT CLEAR     Clear the editor.  There will be a total of 4096 bytes
+                    free after a clear takes place.
+
+     EDIT           Enter the editor.  If no data is present, the editor will
+                    start to accept input right away.  If other data is
+                    present, the editor will start in its prompt mode.  If
+                    this is use as part of an equate (nvar=EDIT), the
+                    location of the editors buffer is returned.
+
+     EDIT SIZE      This is a function that returns the number of bytes used
+                    within the editor.  If this number is zero, the editor is
+                    empty.
+
+     EDIT ON        Turns the profanity filter on
+
+     EDIT OFF       Turns the profanity filter off
+
+     EDIT ERROR     This returns a flag to report an attempt to use the .X
+                    editor command when it is not available to the user.
+
+     The second syntax is used to change the name of the editor overlay loaded in when the other EDIT commands are used.
+
+
+1.23      ELSE
+
+Syntax:   IF argument [THEN] statement:[ELSE] statement
+
+Example:  IF info(6) THEN a=0 ELSE a=1
+
+     The LLUCE language supports the ELSE directive.  With the ELSE statement, you can set up a statement such that IF the argument is true, THEN do a statement or group of statements separated by colons, ELSE if the argument was false, do the following set of statements.  If the argument was true and the first set of statements was executed, when the ELSE statement is reached, control will pass to the next line.
+
+
+1.24      END
+
+Syntax:   END
+
+Example:  END
+
+     The END statement is used to cleanly terminate execution of a program.  END statements can be used anywhere in your code and when encountered will return LLUCE to its restart state.
+
+
+1.25      EOF
+
+Syntax:   nvar=EOF(dev)
+
+Example:  if eof(1) close #1:return
+
+     The EOF function is a boolean operator that becomes true when the end of the file has been reached.  It is most often used in conjunction with an IF-THEN statement.  It can be used with device channels 1, 2 or 3.
+
+
+1.26      ERR
+
+Syntax:   nvar=ERR
+
+Example:  e=ERR
+
+     This function returns the last number of the last error encountered.  If it is 0, no error has occurred.  ERR gets set to 0 by the CLEAR command.
+
+
+1.27      EXEC
+
+Syntax:   EXEC=nexpr
+          nexpr=EXEC
+
+Example:  EXEC=flag(34)
+          if exec chain "program/system"
+
+     This function sets or returns the executive user status.  Zero is a normal user, anything else is an executive user.
+
+
+1.28      EXIST
+
+Syntax:   nvar=EXIST(filename)
+
+Example:  if not EXIST(f$) create f$
+
+     This function checks for the existence of a file, and returns the result.
+
+
+1.29      EXIT
+
+Syntax:   EXIT
+          EXIT "/FullPath"
+
+Example   EXIT "/MyDisk/Start";  EXIT
+
+     This command exits LLUCE.  If a full pathname is supplied, the application will be executed if available.  If a pathname isn't supplied, the normal ProDOS quit routine will be executed.
+
+NOTE:  IF A PATHNAME IS SPECIFIED, A COMPLETE PATHNAME MUST BE USED.
+       THIS IS DUE TO A PROBLEM IN THE PRODOS QUIT ROUTINES.  THIS MAY BE
+       FIXED IN FUTURE RELEASES OF PRODOS 8.
+
+
+1.30      FILL
+
+Syntax:   FILL memadr,length,data
+
+Example:  FILL ram,34,0
+
+     The FILL statement is used to fill an area of memory with some byte of data.  Generally it is used to zero out memory.  memadr is a 16 bit memory address, length is an 8 bit [0-255] number, and DATA is the byte that will be used to fill memory.
+
+
+1.31      FLAG
+
+Syntax:   nexpr=FLAG
+          FLAG=nexpr
+          FLAG(nexpr)
+          FLAG(nexpr)=number
+
+Example:  FLAG=ram2; FLAG(3)=1; z=FLAG(7)
+
+     The FLAG function is a low overhead way to store 1 bit information.  You just need to point the FLAG function to a location in memory that you wish to store your data in, and you can manipulate as many flags as you need.  Each byte of memory can contain 8 flags.  To set up the FLAG function, use the first and second syntax to point the function to a point in memory where the flags will be stored.  Once the pointer is set up, you can use FLAG just like a variable using the third and fourth syntax for reading and writing the flags.
+
+
+1.32      FLASH
+
+Syntax:   FLASH ON
+          FLASH OFF
+
+Example:  FLASH OFF
+
+     This function affects only Apple //gs users.  When the screen saver times out, if FLASH is on, the screen and characters shift colors every second.  Some may find this annoying, so if you use FLASH OFF, the standard screen blank (black screen) will be used.
+
+
+1.33      FLUSH
+
+Syntax:   FLUSH
+          FLUSH #device
+
+Example:  delete #msg(a):msg(a)=0:FLUSH
+
+     The FLUSH statement is used to change the bit-map and directory of a message file.  This is to reflect changes made to the messages themselves.  For example, when a message is deleted, FLUSH will de-allocate it's space.  The next time a message is posted the empty space will be used.
+
+
+1.34      FMTDATE$
+
+Syntax:   string=FMTDATE$
+
+Example:  l$=FMTDATE$
+
+     The FMTDATE$ function returns the current date in 'Thu. Mar 23, 1989' format.  The input will be taken from whatever device is was configured as a clock.  If there is no clock in the system, you should preset the date with the DATE$= command.
+
+
+1.35      FMTWHEN$
+
+Syntax:   string=FMTWHEN$
+
+Example:  l$=FMTWHEN$
+
+     The FMTWHEN$ statement is a date compression scheme.  When the FMTWHEN$ function is used, 2 bytes will be retrieved from memory and will be translated into a "Mon. Jan 29, 1990" format.
+
+
+1.36      FOR
+
+Syntax:   FOR numvar=number TO number STEP
+          number;NEXT
+
+Example:  FOR X=1 TO 11 STEP 2:......:NEXT
+
+     The FOR statement is one of the most powerful parts of the LLUCE language.  It allows one to do a loop a specified number of times without using labels and counters.  Using a FOR loop is easy.  Just place the line at the beginning of the code you want to loop through and select a variable for a counter <numvar> and insert into the line.  The number TO number is the range of the loop.  The first number contains the value of the counter the first time through the loop.  The second number is the value that the counter must reach before the loop terminates.  The STEP argument is optional.  When left off, the loop will execute in increments of 1.  The STEP statement can be used to set a different increment.
+
+
+1.37      FREE
+
+Syntax:   FREE
+
+Example:  FREE
+
+     The FREE statement is used to force the system 'garbage collection' routine to take effect.  It clears all old strings out of memory and packs things together.  Normally, this is done automatically by the system whenever it is needed and whenever a CHAIN statement is executed.
+
+
+1.38      GET
+
+Syntax:   GET varstr
+
+Example:  GET a$
+
+     The GET statement is used to get a single keypress from the keyboard.  When encountered, the system will wait until a key is pressed.  The key will be returned in <varstr>.  Control characters will not be filtered as they are with INPUT.
+
+
+1.39      GOSUB
+
+Syntax:   GOSUB label
+
+Example:  GOSUB mail
+
+     The GOSUB statement is similar to the GOTO statement in that it is used to change the execution point within the program.  However, before LLUCE looks for the label, it saves the current execution address so that it may be returned to.  The new address is then fetched and execution goes on from that point until a RETURN statement is encountered.  At that time, execution will go back to the point right after the GOSUB statement.  As its function indicates, GOSUB is an abbreviation of GO SUBroutine.
+
+
+1.40      GOTO
+
+Syntax:   GOTO label
+
+Example:  GOTO system
+
+     The GOTO statement is used to change the execution point within a program.  When a GOTO is encountered, LLUCE will find the point in the program with the appropriate label and start execution at that new point.  If the label is not within the loaded program module, you will get a LABEL NOT FOUND error.
+
+
+1.41      GOTOXY
+
+Syntax:   GOTOXY(x,y)
+          PRINT GOTOXY(x,y)
+          nvar=GOTOXY
+          GOTOXY=number255
+
+Example:  GOTOXY(10,10)
+          PRINT GOTOXY(15,20)"At 15,20"
+          x=GOTOXY;  GOTOXY=30
+
+     The GOTOXY command is used to move the cursor to a specified position on the screen.  The first two syntax's are used for actual positioning.  The second two are used to set or get the value of the character sent to move the cursor on the remote user's screen.  The GOTOXY command sends the ANSI set cursor position sequence to the user if ANSI is ON.
+
+
+1.42      HOME
+
+Syntax:   HOME
+          PRINT HOME
+          nvar=HOME
+          HOME=number255
+
+Example:  HOME
+          PRINT HOME"now at upper left"
+          x=HOME;  HOME=25
+
+     The HOME command is used to move the cursor to the upper left corner of the window.  The first two syntax's are used for actual positioning.  The second two are used to set or get the value of the character sent to home the cursor on the remote user's screen.  The HOME command sends the ANSI home cursor sequence to the user if ANSI is ON.
+
+
+1.43      IF
+
+Syntax:   IF argument [THEN] statement:[ELSE] statement
+
+Example:  IF info(6) THEN a=0 ELSE a=1
+
+     The IF statement is one of the most powerful statements in the entire LLUCE language.  It gives the system the power of decision.  With it, you can evaluate an argument and take appropriate action.  The argument can either be simple or complex.  The THEN statement is generally optional unless you are doing a  variable declaration of some kind following the argument.  If you are, then the system can think that the declaration is part of the argument unless a THEN is included.  Unlike some BASICs, where a line number can follow a THEN, under LLUCE you may NOT follow a THEN with a label.  You must use 'IF arg THEN GOTO label' or 'IF arg GOTO label' instead.
+
+     In addition, the LLUCE language also supports the ELSE directive.  With the ELSE statement, you can set up a such that IF the argument is true, THEN do a statement or group of statements separated by colons, ELSE if the argument was false, do the following set of statements.  If the argument was true and the first set of statements was executed, when the ELSE statement is reached, control will pass to the next line.
+
+
+1.44      INPUT
+
+Syntax:   INPUT [#device,] [@number,] [\] ["text"] variable [{,\} variable..]
+
+Example:  INPUT a,a$; INPUT #1,a$\b$; INPUT @2,a$; INPUT \"Name: ",n$
+
+     The INPUT statement is one of the most powerful and widely used statements in the LLUCE language.  It is in its simplest form, it is the opposite of the PRINT statement.  The INPUT statement is broken down into 4 different parts.  The first part is the input device to be used.  When omitted, input is taken from the console/modem, otherwise input is taken from that device.  The second part is the input mode.  There is a restrictive mode placed on the input so that the input data is what you desire.  For example, you can set upper case only via the mode. Other mode options are listed below.  The third part of the INPUT statement is the prompt.  The prompt is basically just a text string that will be printed prior to getting the input.  The newline character '\' can be used at the beginning of the text.  The last part of the INPUT statement is the variable list.  This is a list of variables that will be assigned the input.  Each variable in the list is separated by either a comma or a backslash.  If separated by a comma, then the actual typed input must be divided by a comma.  If divided by a backslash, then the  text must be separated by a carriage return.
+
+Input Default  Set the input mode to uppercase.  Don't accept a blank line.
+
+Input Mode 0   Set the input mode to uppercase.  Don't accept a blank line.
+               Just return the first character.
+
+Input Mode 1   Set the input mode to uppercase.  Don't accept a blank line.
+               Don't accept any comma's within the line.
+
+Input Mode 2   Set the input mode to uppercase.  Blank lines will be
+               accepted.
+
+Input Mode 3   Accept everything in both upper and lowercase.
+
+Input Mode 4   Will throw out any commas entered in the input.
+
+
+1.45      INSTR
+
+Syntax:   expression=INSTR(string,string)
+          expression=INSTR(string,string,number255)
+
+Example:  if INSTR("C","ABCDE") print "C is there"
+
+     The INSTR function is used to search within a string for the existence of another string.  The first string is that string which you are searching for.  The second string is what will be searched.  The case of the text will be ignored.  The function will return the number of the first character where the match was found.  If the function returns zero, no match was found.
+     In the first syntax, the search starts at the first character of the string.  In the second, the search starts at the specified character.  If the string being searched is shorter than the specified start, a zero is returned.
+
+
+1.46      INVERSE
+
+Syntax:   INVERSE
+          PRINT INVERSE
+          nvar=INVERSE
+          INVERSE=number255
+
+Example:  INVERSE
+          PRINT INVERSE"This in inverted"
+          x=INVERSE;  INVERSE=15
+
+     The INVERSE command is used to set inverse character mode.  The first two syntax's cause further characters to be displayed in inverse mode.  The second two are used to set or get the value of the character sent to invert characters on the remote user's screen.  The INVERSE command sends the ANSI invert character image sequence to the user if ANSI is ON.
+
+
+1.47      KEY
+
+Syntax:   expression=KEY
+          expression=KEY END
+          expression=KEY NEXT
+          expression=KEY FLAG
+
+Example:  if KEY END print\"stop char pressed"
+
+     The KEY function is used to check and see what if any keys have been pressed.  KEY is generally used to check to see if a routine needs to be interrupted and is used in conjunction with the SETINT and ADDINT statements.
+KEY does not wait for a key, it returns either a zero for no key or the ascii value of the key.  In the KEY END form, a non-zero byte will be returned if the key pressed was the 'File Stop' character defined in the config program.  In the KEY NEXT form, a non-zero byte will be returned if the pressed key is the 'File Next' key defined in config.  In the KEY FLAG form, a non-zero byte will be returned if the key pressed is in the interrupt table defined by SETINT and ADDINT.
+
+
+1.48      KILL
+
+Syntax:   KILL filename
+          KILL #MSG(expression)
+
+Example:  KILL "system/testfile"
+          KILL #MSG(25)
+
+     The KILL statement can be used in two different ways.  In both ways, it is used to delete data.  In its first form, with the filename, it will delete the file from disk.  In its second form, it will kill a message within the currently active message base.  After using KILL on a message, it is always a good idea to follow it with an UPDATE.
+
+
+1.49      LEADIN
+
+Syntax:   nvar=LEADIN
+          LEADIN=number255
+
+Example:  x=LEADIN;  LEADIN=0
+
+     The LEADIN command is used to set or get the value of the character used as a command lead in for the remote user's terminal.  No lead in character will be sent if set to zero.  The leadin character is only sent if the high bit is set for the emulation character being sent.
+
+
+1.50      LEFT$
+
+Syntax:   string=LEFT$(string,length)
+
+Example:  print "Month:" LEFT$(date$,2)
+
+     The LEFT$ function is used to change a string variable into a partial string.  More specifically, it will return LENGTH number of characters starting at the LEFT side of the source string.
+
+
+1.51      LEN
+
+Syntax:   expression=LEN(string)
+
+Example:  print "ABC is ";LEN("ABC");" chars long"
+
+     The LEN statement is used to determine the length of a string.  The returned length will be in the range from 0 to 255.
+
+
+1.52      LOCK
+
+Syntax:   LOCK filename
+
+Example:  LOCK "newfile"
+
+     This function is used to alter a file's access.  This will not allow a file to be deleted, written to, or renamed.
+
+
+1.53      LOWER$
+
+Syntax:   LOWER$(string)
+
+Example:  input f$:LOWER$(f$)
+
+     This function converts a string variable to all lower case.
+
+
+1.54      LTRIM$
+
+Syntax:   LTRIM$(string)
+
+Example:  input f$:LTRIM$(f$)
+
+     LTRIM$ trims leading spaces from a string.
+
+
+1.55      MARK
+
+Syntax:   expression=MARK(device)
+          MARK(device)=number
+
+Example:  a=MARK(1); MARK(2)=0
+
+     The MARK function will allow you to either set or check the point at which a file is doing i/o.  If you want to go to the beginning of a file, you would issue a MARK(1)=0 assuming it was file 1.  MARK has a second function in that it can be used to see if a file exist.  Normally LLUCE will not generate an error if a file does not exist, so it can be hard to tell if there is one.  To see if a file exists:
+
+          OPEN #1,filename
+          IF NOT MARK(1) PRINT "FILE EXISTS"
+          CLOSE #1
+
+
+1.56      MID$
+
+Syntax:   string=MID$(string,start [,length])
+          MID$(string,start[,length]) = string
+
+Example:  print "char 2 is ";MID$("ABC",2,1)
+          MID$(last$,10) = date$
+
+     In the first syntax, the MID$ function is used to put part of one string into another.  It can be used in two forms.  In the first, giving just a source string and a starting character number, the new string will be assigned the contents of the original string starting at the start character.  If the optional length argument is added, then only that number of characters will be returned or the number of characters from start to the end of the string, whichever is shorter.
+
+     In the second syntax, the MID$ function is used to put one string into part of another string.  The forms are the same as in the first syntax.  Only as much of the second string as will fit into the first string will be copied, or till the specified length (if any) is reached.  You cannot make the first string larger with this function.  Any remaining characters in the second string will not be copied if they overrun the first string end, or the number of specified characters (whichever is shorter).
+
+
+1.57      MIXED$
+
+Syntax:   MIXED$(string)
+
+     This function converts a string variable to all mixed case.
+Any non-alphabetic character makes the next character upper-case.  Any alphabetic character following an alphabetic character will be converted to lower case.
+
+
+1.58      MODE
+
+Syntax:   MODE=number
+          nvar=MODE
+
+Example:  MODE=0
+
+     The is used to set the 'back space mode' that the editor will use.  Certain modes allow more control than others.  Mode 0 indicates that the actual mode is not known.  The editor will work fine, but some functions will be disabled.  Under mode 1, the editor assume that the user has a 'non-destructible' back-space.  This allows all the editor functions to be used and is how the local console is setup.  Mode 2 tells the editor that the user has a 'destructible' back-space.  Under this mode, some functions are disabled, but the editor speeds up other functions.
+
+
+1.59      MODEM
+
+Syntax:   MODEM READY
+          MODEM NOCAR
+          MODEM ONLINE=number255
+          MODEM TIME$=String
+          MODEM CLEAR
+
+Example:  MODEM(1)
+
+     The MODEM statement has many functions including waiting for a call, hanging up, and initializing the modem.  The number in the syntax represents the desired modem function.  The following list contains all the modem functions.
+
+     MODEM READY    This command will initialize the modem, then wait for an
+                    incoming call and establishes a connection.  Execution
+                    will continue when either a call is connected, or the
+                    user goes into local mode.
+
+     MODEM NOCAR    This command causes the modem to hang up.  All further
+                    output will be directed to the console only.
+
+     MODEM ONLINE   This command sets up the modem to receive commands.
+                    Commands are sent with the PRINT #4 command.  The value
+                    you pass to this function is the baud rate divided by
+                    300.
+
+     MODEM TIME$    This sets a time when the MODEM READY routine is to
+                    automatically return to the calling routine.  This is
+                    useful for automatic maintenance or networks.
+
+     MODEM CLEAR    This clears the automatic return.
+
+
+1.60      MOUSE
+
+Syntax:   MOUSE
+          PRINT MOUSE
+          nvar=MOUSE
+          MOUSE=number255
+
+Example:  MOUSE
+          PRINT MOUSE"@ this is a solid apple
+          x=MOUSE;  MOUSE=15
+
+     The MOUSE command is used to set mousetext character mode.  The first two syntax's cause further upper case characters to be displayed as mousetext.  The second two are used to set or get the value of the character sent to set mousetext mode on the remote user's screen.  The MOUSE command has no ANSI equivelant, so when ANSI is ON, this command does nothing.
+
+
+1.61      MOVE
+
+Syntax:   MOVE start,length TO destination
+
+Example:  MOVE ram,34 TO ram2
+
+     The MOVE statement is used to move segments of memory around.  The only limitation is that only a maximum of 255 bytes can be moved at a time.  Always be careful when moving around memory.  If you move over some memory that is use by LLUCE, some unpredictable things can happen.  Both START and DESTINATION are 16 bit memory addresses while LENGTH is an 8 bit [0-255] number.
+
+
+1.62      MSG
+
+Syntax:   expression=MSG(number1[,number2])
+          MSG(number1[,number2])=expression
+          device=#MSG(number)
+          nvar=MSG SIZE
+          nvar=MSG FREE
+
+Example:  if MSG(un) print "You have mail.";
+          MSG(un)=1; copy #MSG(4)
+
+     The MSG function is a specialized function for the LLUCE message handling routines.  Once a message file has been opened via the READY statement, the MSG function is used to access individual messages within the message file.  The MSG function has several radically different syntax's.  Under the first and second syntax, it is being used to access and set information about a message.  For each message, you can maintain four numbers that give information about it via the MSG function.  The first number (number1) is the actual message number, while the optional second number (number2) is the reference to the individual piece of information stored in the message.  The range is 0 through 3.  If the second number is omitted, then it is assumed to be 0.  The MSG(0) function returns the number of messages within the message file and may not be changed.  Also, there is no second number available to MSG(0).  To access a message, it is used as a device channel.  While to show the editor COPY #8 would suffice, since the message file is made up of many messages, it is necessary to tell which message you want to work with.  COPY #MSG(3) would show message number three within the currently open message file.  When using #MSG(x) to print data, the second number is redundant, and not used if present.  MSG SIZE returns the capacity of the current message file.  MSG FREE returns the number of free blocks in the current message file.  One block contains 126 bytes.
+
+
+1.63      NAME
+
+Syntax:   NAME filename1,filename2
+
+Example:  NAME "text1","info"
+
+     This function changes the name of a file.  If the first filename is not found, then nothing gets done, and no error is returned.
+
+
+1.64      NEXT
+
+Syntax:   NEXT
+          NEXT nvar
+
+Example:  FOR X=1 TO 10:......:NEXT
+
+     The NEXT statement is used to set the ending boundary of a FOR - NEXT loop.  Unlike with some versions of BASIC, the NEXT statement does not need to be followed with the name of the variable that is being used in the loop.  The second syntax may be used to terminate any FOR loops that were started after the one you specify with nvar.  You may also have multiple NEXTs for a single FOR statement.  To end a loop early, just set the variable that is used in the loop to its final value and then execute a NEXT statement.  This will terminate a loop early.
+
+
+1.65      NIBBLE
+
+Syntax:   expression=NIBBLE
+          NIBBLE=number
+          number=NIBBLE(number)
+          NIBBLE(number)=number16
+
+Example:  p=NIBBLE; NIBBLE=ram2; NIBBLE(1)=3
+
+     The NIBBLE function is similar to the FLAG function in that it is a low overhead data storage method.  With the NIBBLE function, you can store 4 bit numbers that have the range 0-15.  Use the first and second syntax of NIBBLE to point to the area in memory where the data will be stored.  Use the third and fourth syntax's to read and write the actual data.
+
+
+1.66      NODE
+
+Syntax:   nvar=NODE
+
+Example:  x=NODE
+
+     This function returns the network node number of the system that this copy of LLUCE is being run on.  This is a read only command.
+
+
+1.67      NORMAL
+
+Syntax:   NORMAL
+          PRINT NORMAL
+          nvar=NORMAL
+          NORMAL=number255
+
+Example:  NORMAL
+          PRINT NORMAL"This in normal"
+          x=NORMAL;  NORMAL=14
+
+     The NORMAL command is used to set inverse character mode.  The first two syntax's cause further characters to be displayed in normal mode.  The second two are used to set or get the value of the character sent to set normal characters on the remote user's screen.  The NORMAL command sends the ANSI set standard video mode sequence to the user if ANSI is ON.
+
+
+1.68      NOT
+
+Syntax:   expression=NOT expression
+
+Example:  if NOT edit(2) return; a=NOT b
+
+     The NOT operator is a boolean logic operator.  It changes the value of an expression from true to false or from false to true.  In boolean logic, false is considered to be zero while not false, or true, is considered to be any other number.  The NOT operator is most commonly used in IF statements.
+
+
+1.69      NULLS
+
+Syntax:   nvar=NULLS
+          NULLS=number255
+
+Example:  print "Nulls are set to "NULLS
+          NULLS=0
+
+     This function sets the number of null characters sent to the remote user after each line of text is sent.
+
+
+1.70      OFFSET
+
+Syntax:   nvar=OFFSET
+          OFFSET=nexprs
+
+Example:  OFFSET=32
+
+     This function sets the value to add to the arguments of the GOTOXY command.  Normal offset is the value of a space (32).
+
+
+1.71      ON
+
+Syntax:   ON nexpr GOTO label-list
+          ON nexpr GOSUB label-list
+          ON nexpr PUSH label-list
+
+Example:  ON X GOTO sub1,sub2,sub3
+
+     The ON statement is used to dispatch to various labels depending on the value of nexpr.
+
+
+1.72      ON ERROR
+
+Syntax:   ON ERROR GOTO label
+
+Example:  ON ERROR GOTO doerror
+
+     The ON ERROR statement is used to setup a routine that can be used when an error occurs in your program.  When an error occurs, LLUCE will change the current execution point to the label that was set up.  Whenever you link to another segment you must set up a new ON ERROR vector to a routine within that segment.  If you don't have a vector set up and an error occurs, LLUCE will hang up on the user, and drop to the 'Restart: S/M/*/Q ?" prompt.  After a short period of time, the system will automatically restart.  See RESUME and ERR for more information.
+
+
+1.73      ON NOCAR
+
+Syntax:   ON NOCAR GOTO label
+
+Example:  ON NOCAR GOTO termin1
+
+     The ON NOCAR statement is used to setup a routine that can be used when carrier is lost from a remote user.  When carrier is lost, LLUCE will then hang up the modem.  It will then change the current execution point to the label that was set up.  Whenever you link to another segment you must set up a new ON NOCAR vector to a routine within that segment.  If you don't have a vector set up and a remote caller drops carrier, the system will just sit there until another user accesses the system.
+
+
+1.74      ONLINE
+
+Syntax:   nvar=ONLINE
+
+Example:  ol=ONLINE
+
+     This function returns the modem status.  If a user is on the system through the modem, a 1 will be returned.  If a user is on the local system keyboard, a 0 will be returned.
+
+
+1.75      OPEN
+
+Syntax:   OPEN #device,filename
+          OPEN READ #device,filename
+          OPEN WRITE #device,filename
+
+Example:  OPEN #1,"system/users"
+
+     The OPEN statement is used to make disk files ready to do i/o with a program.  You open a disk file using device channel 1, 2 or 3 and all further references to that channel will access the file associated with it.  When you are finished with the file, use the CLOSE command.  This will free up the device channel for later use.  If you try to use a channel that is already in use, or one besides channel's 1, 2 or 3, you will get a BAD DEVICE CHANNEL error.  If the file you open does not exist, no error will be generated.  If you try to read from the file, it will appear to be empty.  Use the CREATE command to make a file.  The READ and WRITE parameters are used for network access.  READ will open a file with read privileges only, and will not allow writing to the file.  This allows other users on the network to read the same file.  WRITE opens a file for write access only.  If neither READ or WRITE is specified, the file is opened for READ and WRITE access.  If there's no AppleTalk network detected at startup, these parameters are ignored.
+
+
+1.76      OR
+
+Syntax:   nvar=nexprs OR nexprs
+
+Example:  z=x OR y
+
+     This function returns the binary OR of two numbers.  It compares the bits, and if any bit in either number is set, a 1 is returned, if not, a 0 is returned.
+
+
+1.77      OVERLAY
+
+Syntax:   OVERLAY fname [,parms(,parms...)]
+
+Example:  OVERLAY "xdos",i$
+
+     The OVERLAY statement is used to access an 8k or smaller routine from a disk file that is external to the language.  These "external files" are loaded in and executed.  The OVERLAY itself will get parameters from the continuation of the line after the filename argument.  All overlays should be located in a SYSTEM folder in the folder that you start LLUCE from.
+
+
+1.78      PDL
+
+Syntax:   expression=PDL(number)
+
+Example:  print "paddle 1 is set at "PDL(1)
+
+     The PDL function is used to read one of the paddles on the system.  You can read paddle zero through three.  The number returned with be in the range 0-255.
+
+
+1.79      PEEK
+
+Syntax:   expression=PEEK(address)
+
+Example:  if PEEK(-16287)>127 print "button 1 is on"
+
+     The PEEK function is used to find the value of a byte in memory.  ADDRESS is a 16 bit memory location that will be read and its value returned.  The returned value will be in the range 0-255.
+
+
+1.80      POKE
+
+Syntax:   POKE address,value
+
+Example:  POKE -16368,0
+
+     The POKE statement is used to assign a memory location a value of your choice.  ADDRESS is a 16 bit memory location and VALUE is a number in the range 0-255.
+
+
+1.81      POP
+
+Syntax:   POP
+
+Example:  POP
+
+     The POP statement is used in conjunction with the PUSH or GOSUB statement.  When encountered, it will take the current 'RETURN ADDRESS' from the table in memory and get rid of it.  Though not used often, this statement is very handy when you need to exit from a routine that was GOSUBed without using a RETURN.  If there is no active GOSUB, a RETURN without GOSUB error will occur.
+
+
+1.82      POSITION
+
+Syntax:   POSITION #device,number,number[,number]
+
+Example:  POSITION #1,128,un,70
+
+     The POSITION statement is used to position within random access files.  The first argument is the disk device channel number that was used to open the file.  The second field is the length of each record.  The third field is the record number to be positioned to.  The forth optional field is the offset within the record that is to be positioned to.
+
+
+1.83      PREFIX
+
+Syntax:   PREFIX pathname
+
+Example:  PREFIX "system"
+
+     The PREFIX statement simply changes the default pathname.  If the pathname does not exist, a PREFIX NOT FOUND error will occur.
+
+
+1.84      PRINT
+
+Syntax:   PRINT [#device,] [expression] [,expression] [;]
+
+Example:  PRINT "this is a test";PRINT a$,b$;
+          PRINT #1,"data",a\b$
+
+     The PRINT statement is probably the most used statement in the entire LLUCE language.  With it, you can communicate information to the outside world.  Its syntax is very flexible and all examples of it can not be shown here.  The following is a list of legal arguments within the print command:
+
+Control: ','   The comma is used to separate expressions within the print
+               statement and will be printed literally.
+
+Control: ';'   The semi-colon is also used to separate expressions.  It will
+               not be printed when encountered.  If a semi-colon is the last
+               character in the line, then the carriage return will be
+               suppressed.
+
+Control: '\'   The backslash is used to generate a newline character.  Using
+               the backslash, there is no need to put a bunch of
+               print:print... statements.
+
+Exprs: TEXT    Text must be contained within quotes and will be printed 
+               exactly as typed.  Within quotes, you may have any special
+               characters including return.  Having an open quote with no
+               closing quote can prove to be an interesting experience.
+
+Exprs: STRING  The content of the listed string will be printed.
+               Nothing special applies.
+
+Exprs: NUMBER  The content on the listed number will be printed.
+               Nothing special applies.
+
+The emulation commands HOME, CLS, NORMAL, INVERSE, MOUSE and GOTOXY may be placed anywhere in a print statement other than in a literal (quoted) string. If in a literal string, the command name will be text, and will be printed as such.  The TONE command may also be used in the same manner.
+
+
+1.85      PUBLIC
+
+Syntax:   PUBLIC label
+
+Example:  PUBLIC main
+
+     The PUBLIC statement is used to make a label within a program module available to other modules to link to.  If you wish to chain to another program module, and start execution at a some point other than the beginning of the module, you will need to make that point public.  You can have a maximum of 8 public labels within a program module.  ACOS did not check the number of public labels, and always copied the first 8 labels defined to the public label list.  LLUCE only copies the number of public labels defined, so if you are converting ACOS code to LLUCE that relies on copying 8 labels the way ACOS does, you will need to add the missing labels to your public list.
+
+
+1.86      PUSH
+
+Syntax:   PUSH label
+
+Example:  PUSH main
+
+     The push statement is a sub-set of the GOSUB statement.  It does not actually change the current point of execution, but places a return address in a table so that the next time a RETURN statement is encountered,  control will return to this point.  A POP statement will remove the last address added to the return table.
+
+
+1.87      RAM
+
+Syntax:   RAM
+          RAM(0)
+          RAM(1)
+          RAM(2)
+          RAM(3)
+
+Example:  move ram,34 to ram(1)
+
+     The RAM function is really just a constant pointer.  It just points to one of the 4 free 256 byte blocks of memory that has been set aside for program use.  RAM and RAM(0) point to the same location.  The RAM(0) syntax should only be used if you are using an index to access the ram area.
+
+
+1.88      RANDOM
+
+Syntax:   expression=RANDOM(number)
+
+Example:  print "from 1 to 10 -> "RANDOM(10)
+
+     The RANDOM function is used to generate a random within the range 0-number.  A new random number will be generated every time the system goes to get input.  If you take two random numbers in a row, they will always be the same.  If you need more than one, use the RND$ string between them.  This will do a temporary re-random.
+
+
+1.89      READ
+
+Syntax:   READ #device,memloc,number
+
+Example:  READ #1,ram2,34
+
+     The READ statement is used to load data from a file into memory in its binary form without any processing or changing.  The input does not have to come from a file, it can come the editor or a message file.  It is similar to an Apple DOS BLOAD command.
+
+
+1.89      READY
+
+Syntax:   READY filename
+          READY #MSG(number)
+
+Example:  READY "email/mail"; READY #msg(un)
+
+     The READY statement is used to make a message file ready for use.  It is similar to an OPEN statement being used before a file is accessed.  After a message file is made ready, all following references to MSG will be directed to that file.  Once a message file has been made ready, it can also be used in its second syntax to ready a specific message within the file.  This is generally used if further references to the file will use the device channel associated with the message base.
+
+
+1.90      RECALL
+
+Syntax:   RECALL "fname"
+
+Example:  RECALL "system/variables"
+
+     The RECALL statement will reload in the variable set that was saved via a STORE command.  The existing variables will be cleared, and the RECALLed ones will take their place.
+
+
+1.91      RESUME
+
+Syntax:   RESUME
+
+Example:  if err=6 print "Number too large":RESUME
+
+     This statement will cause your program to be continued on the next text (before being compiled) line.  It will skip all remaining statements on the line the error occurred.
+
+The following is a small sample:
+
+ on error goto errorin
+input1
+ input @2 "Enter a number ->" i:goto cont1
+ print "Number too large, re-enter"
+ goto input1
+
+cont1
+        Code continues here
+
+errorin
+ if err=6 RESUME
+
+
+1.92      RETURN
+
+Syntax:   RETURN
+
+Example:  RETURN
+
+     The RETURN statement is used in conjunction with the PUSH or GOSUB statement.  When encountered, program execution is halted at its current location, and a new execution address is pulled from a table in memory.  If no address is present, a RETURN WITHOUT GOSUB error will occur.
+
+
+1.93      REWIND
+
+Syntax:   REWIND
+
+Example:  REWIND
+
+     The REWIND statement is used to change the file pointer back to its previous location.  Generally this is used with the READY #msg(x):copy #8 statements to perform "re-read" tasking.
+
+
+1.94      RIGHT$
+
+Syntax:   string=RIGHT$(string,length)
+
+Example:  x$=RIGHT$(a$,2)
+
+     The RIGHT$ function is used to assign a portion of a source string to another string.  It will take LENGTH number of characters from the RIGHT of the source string and assign them to the new string.
+
+
+1.95      RND$
+
+Syntax:   char=RND$
+
+Example:  print "Random pass: "RND$;RND$;RND$
+
+     The RND$ function is used to generate random characters.  Each time RND$ is accessed a new  random character will be returned.  Be Warned: The random number is generated from timing how long a user takes to enter his input.  The is really a pretty random number since it is based on the users typing skill and speed.  The only problem is that the random character generator can start repeating patterns after about 15-20 characters have been generated and before another input has taken place to "re-randomize" the number.
+
+
+1.96      RTRIM$
+
+Syntax:   TRIM$(svar)
+
+Example:  input @2"Enter data -> "s$:RTRIM(s$)
+
+     This function trims off any trailing spaces form the argument string.
+
+
+1.97      SET
+
+Syntax:   SET string=memloc,number
+          SET MSG=nexpr
+
+Example:  SET pa$=ram,8; SET MSG=1
+
+     The SET statement is another statement set up for the optimum management of memory.  With SET, you can manually set up pointers for strings anywhere in memory.  Along with the location of the string, you can also specify the length.  Whenever the string is accessed, the text present at the memory locations will be returned.  The second syntax for SET selects the notice shown at the top of the screen.  This is either 0 for nothing, 1 for chat mode or 2 for exec mode.
+
+
+1.98      SETINT
+
+Syntax:   SETINT (string1 [,string1...])
+          SETINT ("")
+          SETINT (number)
+
+Example:  SETINT("");SETINT(1);SETINT("A")
+
+     The SETINT command is used to set up "interrupt" keys.  Once setup, the system will check for those keys whenever text is being displayed.  If one of the keys are encountered, all further output will be suppressed until an input statement of some kind is encountered or the SETINT is reset.  To reset the SETINT command, use the second syntax.  If you wish to set the interrupt keys to those pre-defined by the LLUCE CONFIG program, use the third syntax.  SETINT(1) will set the interrupt key to the 'File Stop' character.  SETINT(2) will set the interrupt keys to the 'File Stop' and 'File Next' characters.
+
+
+1.99      SIZE
+
+Syntax:   expression=SIZE(device)
+
+Example:  open #1,"program/testfile":print SIZE(1)
+
+     The SIZE function will allow you to determine the size of a file on disk.  The only prerequisite is that the file is open.  The size returned will be the actual file size, not including any index blocks.
+
+
+1.100     STEP
+
+Syntax:   FOR numvar=number TO number STEP number
+
+Example:  FOR X=1 TO 11 STEP 2
+
+     The STEP statement is used in conjunction with FOR command.  When not used in a FOR command, the loop will execute in increments of 1.  The STEP statement is used to set a different increment.
+
+
+1.101     STORE
+
+Syntax:   STORE "fname"
+
+Example:  STORE "system/variables"
+
+     The STORE command will save the values of all the variables (both numerical and strings) onto a disk file.  This is useful if another segment will be used that may have conflicting variable names.
+
+
+1.102     STR$
+
+Syntax:   string=STR$(number)
+
+Example:  a$=STR$(123)
+
+     The STR$ function is used to change a number into a string.  Once turned into a string, the number can not be used in any mathematical operation.  To convert the string back to a number, use the VAL function.
+
+
+1.103     TERMINAL
+
+Syntax:   TERMINAL=nexprs
+          nvar=TERMINAL
+
+Example:  n=TERMINAL;  TERMINAL=255
+
+     This command is used to set an arbitrary terminal ID number.  If nexprs is greater than 127, the ProTERM ID enquiry is sent, and if there is no response, TERMINAL will end up being 0.  If there is a response, TERMINAL will be set to 255.  If nexprs is less than 128, the number just gets stored.  This saves a small amount of room in variable space, and does not get CLEARed.
+
+
+1.104     THEN
+
+Syntax:   IF argument [THEN] statement
+
+Example:  IF info(6) THEN a=0
+
+     The THEN command is used with the IF statement.  THEN can be used to separate the IF test from the rest of the line to execute if the IF is true.  This can be replaced with a colon (:) if you need to reduce the length of your lines.
+
+
+1.105     TIME$
+
+Syntax:   string=TIME$
+
+Example:  print "The time is: "TIME$
+
+     The TIME$ function is used to get the current time from your clock.  If your system is equipped with a clock, the time will be returned in a "HH:MM:SS" type of format.  If your clock is set for a 12 hour format, you will not get full 24 hour time.
+
+
+1.106     TIME12$
+
+Syntax:   sexprs=TIME12$
+
+Example:  t$=TIME12$
+
+     The TIME12$ returns the current time in 12 hour format, eg: HH:MM:SS xm.  If your clock is set up for 12 hour format, then you will always get a result that is always AM.
+
+
+1.107     TO
+
+Syntax:   See FOR and MOVE commands
+
+     This statement is used as an argument separator in the FOR and MOVE commands.
+
+
+1.108     TONE
+
+Syntax:   TONE(nvar1,nvar2,[nvar3])
+          PRINT TOME(nvar1,nvar2[,nvar3])
+
+Example:  TONE(50,60,100)
+
+     The TONE command will generate sound from the local speaker.  If you only use the first two arguments (as the pitch and duration) it will give true sound.  If using the third argument, the first two become pitch and offset.  The third then becomes the duration.
+
+
+1.109     TYPE
+
+Syntax:   TYPE fname
+
+Example:  TYPE "help/help.main"
+
+     This command types a file to the console.  It will handle AppleWorks files and text files.
+
+
+1.110     UNLOCK
+
+Syntax:   UNLOCK fname
+
+Example:  UNLOCK "data/info"
+
+     This command changes the access flags for the specified file.  It allows the file to be written to, deleted, or renamed.
+
+
+1.111     UPPER$
+
+Syntax:   UPPER$(svar)
+
+Example:  input @2"Enter data: "s$:UPPER$(s$)
+
+     This function converts the argument variable to all upper case.
+
+
+1.112     VAL
+
+Syntax:   nvar=VAL(svar)
+
+Example:  z=val(i$)
+
+     The VAL statement is used to find the numerical value of a string.  The VAL statement is used when you have a string containing a number.
+
+
+1.113     WHEN$
+
+Syntax:   WHEN$=memloc
+          sexprs=WHEN$
+          WHEN$=svar
+
+Example:  WHEN$=a$:a$=WHEN$
+
+     The WHEN$ statement is a date compression scheme.  The first syntax point WHEN$ to two free bytes in memory.  When the WHEN$ function is used, 2 bytes will be retrieved from memory and will be translated into a "MM/DD/YY" format.  With ACOS, when you assigned WHEN$ a value, the current date would be read and changed into a two byte compressed format and saved to the current memory pointer.  With LLUCE, if a valid date in the form of "MM/DD/YY" is provided, this date is used.  If the value isn't a valid date, the current date is used.
+
+
+1.114     WIDTH
+
+Syntax:   nvar=WIDTH(nvar)
+          WIDTH=number
+          nvar=WIDTH
+
+Example:  a=width(0); WIDTH=40; x=WIDTH
+
+     In the first syntax, WIDTH(x) (where x is 1-4) will return the 4 most commonly used video widths.  WIDTH(0) will return the number of the width (1-4) that should be used as a default.
+
+     The second and third syntax's are used to set and get the video width used within the editor.  Any value from 1 to 255 is legal.  The most often used widths are 32, 40, 64, 80, 128.  All operations within the editor will be based around this width.  You can also read the current width using it as a function.
+
+
+1.115     WINDOW
+
+Syntax:   WINDOW top[,bottom[,left[,right]]]
+
+Example:  WINDOW 4
+
+     This command sets the local window.  It is usually used only to set the top line available to normal text.  This would be used to protect user statistics.  The video driver has not been changed to handle any left or right window values, and these are ignored at this time.
+
+
+1.116     WORD
+
+Syntax:   WORD=expression
+          nvar=WORD
+          nvar=WORD(number)
+          WORD(number)=number65535
+
+Example:  p=WORD; WORD=ram2; WORD(4)=12
+
+     The WORD function is a low overhead data storage unit.  Just point to where in memory you want the data to be stored using the first syntax, and you can then access the data using the third and fourth syntax's.
+
+
+1.117     WRITE
+
+Syntax:   WRITE #dev,memloc,nvar
+
+Example:  write #1,ram,34
+
+     The WRITE statement is used to write binary data from memory to one of LLUCE's device channels.  The only channel that cannot be used is #7.  The second argument is the memory location from which LLUCE will write.  The third is the number of bytes to write.
+
+
+1.118     XOR
+
+Syntax:   nvar=nexprs XOR nexprs
+
+Example:  z=x XOR y
+
+     This function returns the binary exclusive OR of two numbers.  It compares the bits, and if any two bits do not match, a 1 is returned in the result, if not, a 0 is returned in the result.
+
+
+                             DEVICE SPECIFIERS
+
+#0:  Local & remote consoles [default]
+#1:  Disk file #1
+#2:  Disk File #2
+#3:  Disk file #3
+#4:  Local console only  READ ONLY
+#5:  Remote console only (modem)
+#6:  Printer             WRITE ONLY
+#7:  Message file        READ/WRITE
+#8:  Message file        READ ONLY
+#9:  Editor
+#10: Internal 256 byte RAM area
